@@ -1,6 +1,6 @@
 # encoding: utf-8
 module Sponges
-  class Master
+  class Supervisor
     def initialize(name, options, worker, method, *args, &block)
       @name, @options = name, options
       @worker, @method, @args, @block = worker, method, args, block

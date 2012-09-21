@@ -22,15 +22,22 @@ gem "sponges"
 ``` ruby
 # The worker class is the one you want to daemonize.
 #
-worker = Worker.new
+require 'sponges'
+
+class Worker
+  def run
+    puts Process.pid
+    sleep 1
+    run
+  end
+end
 
 options = {
   size: 3,
   log_dir: "/tmp"
 }
 
-Sponges.new("name", options).
-  work(worker, :run, *args, &block)
+Sponges::Runner.new("bob").work(worker.new, :run)
 ```
 
 ## Copyright

@@ -40,6 +40,13 @@ options = {
 Sponges::Runner.new("bob").work(worker.new, :run)
 ```
 
+## TODO
+
+* Logging solution
+* Specing
+* Storing pids
+* Bin
+
 ## Copyright
 
 MIT. See LICENSE for further details.

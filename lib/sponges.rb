@@ -4,4 +4,5 @@ require_relative 'sponges/master'
 require_relative 'sponges/runner'
 
 module Sponges
+  SIGNALS = [:INT, :QUIT]
 end

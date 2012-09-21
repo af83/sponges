@@ -2,34 +2,30 @@
 module Sponges
   class Runner
     def initialize(name, options = {})
+      @name = name
       @options = default_options.merge options
-      @pids = []
     end
 
     def work(worker, method, *args, &block)
-      @options[:size].times do |index|
-        @pids << fork_children(children_name(index), worker, method, *args, &block)
+      trap_signals
+      master_pid = fork_master(worker, method, *args, &block)
+      if daemonize?
+        Process.daemon
+      else
+        Process.waitpid(master_pid) unless daemonize?
       end
-      start!
-      trap(:INT) { kill_master }
     end
 
     private
 
-    def start!
-      if daemonize?
-        Process.daemon
-      else
-        Process.waitpid(fork_master) unless daemonize?
+    def trap_signals
+      Sponges::SIGNALS.each do |signal|
+        trap(signal) { kill_master }
       end
     end
 
-    def kill_all
+    def kill_master
       Process.kill :INT, @master
-    end
-
-    def children_name(index)
-      "#{@name}_child_#{index}"
     end
 
     def default_options
@@ -38,17 +34,10 @@ module Sponges
       }
     end
 
-    def fork_master
+    def fork_master(worker, method, *args, &block)
       @master = fork do
         $PROGRAM_NAME = "#{@name}_master"
-        Master.new(@name, @pids).start
-      end
-    end
-
-    def fork_children(name, worker, method, *args, &block)
-      fork do
-        $PROGRAM_NAME = name
-        worker.send(method, *args, &block)
+        Master.new(@name, @options, worker, method, *args, &block).start
       end
     end
 

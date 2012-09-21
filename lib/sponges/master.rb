@@ -18,17 +18,17 @@ module Sponges
 
     private
 
-    def children_name
-      "#{@name}_child_#{@children_seen +=1}"
-    end
-
     def fork_children
       name = children_name
       pid = fork do
         $PROGRAM_NAME = name
-        @worker.send(@method, *@args, &@block)
+        Sponges::WorkerBuilder.new(@worker, @method, *@args, &@block).start
       end
       @pids << pid
+    end
+
+    def children_name
+      "#{@name}_child_#{@children_seen +=1}"
     end
 
     def trap_signals
@@ -38,13 +38,25 @@ module Sponges
           Process.kill :USR1, Process.pid
         end
       end
+      trap(:CHLD) do
+        @pids.each do |pid|
+          begin
+            dead = Process.waitpid(pid, Process::WNOHANG)
+            @pids.delete(dead)
+          rescue Errno::ECHILD => e
+            p e
+          end
+        end
+        fork_children
+      end
     end
 
     def kill_them_all(signal)
       @pids.each do |pid|
         begin
           Process.kill signal, pid
-        rescue Errno::ESRCH
+        rescue Errno::ESRCH => e
+          p e
         end
       end
     end

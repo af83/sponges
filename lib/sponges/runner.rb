@@ -7,12 +7,12 @@ module Sponges
     end
 
     def work(worker, method, *args, &block)
+      @master = fork_master(worker, method, *args, &block)
       trap_signals
-      master_pid = fork_master(worker, method, *args, &block)
       if daemonize?
         Process.daemon
       else
-        Process.waitpid(master_pid) unless daemonize?
+        Process.waitpid(@master) unless daemonize?
       end
     end
 
@@ -25,7 +25,7 @@ module Sponges
     end
 
     def kill_master
-      Process.kill :INT, @master
+      Process.kill :USR1, @master
     end
 
     def default_options
@@ -35,7 +35,7 @@ module Sponges
     end
 
     def fork_master(worker, method, *args, &block)
-      @master = fork do
+      fork do
         $PROGRAM_NAME = "#{@name}_master"
         Master.new(@name, @options, worker, method, *args, &block).start
       end

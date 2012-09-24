@@ -58,10 +58,14 @@ Start workers and daemonize them:
 ruby example.rb start -d
 ```
 
+Show a list of workers and their children.
+``` bash
+ruby example.rb list
+```
+
 ## TODO
 
 * Specing
-* Storing pids
 * Bin
 
 ## Copyright

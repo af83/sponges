@@ -15,4 +15,4 @@ Sponges.configure do |config|
   config.worker_method = :run
 end
 
-Sponges::Cli.start
+Sponges.start

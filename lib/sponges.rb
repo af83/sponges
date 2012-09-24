@@ -14,4 +14,9 @@ module Sponges
     Sponges::Configuration.configure &block
   end
   module_function :configure
+
+  def start
+    Sponges::Cli.start
+  end
+  module_function :start
 end

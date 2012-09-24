@@ -1,5 +1,4 @@
 # sponges
-
 When I build some worker, I want them to be like an army of spongebob, always
 stressed and eager to work. sponges helps you to build this army of sponge, to
 control them, and, well, kill them gracefully.
@@ -50,3 +49,11 @@ Sponges::Runner.new("bob").work(worker.new, :run)
 ## Copyright
 
 MIT. See LICENSE for further details.
+
+  ___ _ __   ___  _ __   __ _  ___  ___
+ / __| '_ \ / _ \| '_ \ / _` |/ _ \/ __|
+ \__ \ |_) | (_) | | | | (_| |  __/\__ \
+ |___/ .__/ \___/|_| |_|\__, |\___||___/
+     | |                 __/ |
+     |_|                |___/
+

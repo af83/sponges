@@ -8,7 +8,7 @@ control them, and, well, kill them gracefully.
 
 ## Installation
 
-Ruby 1.9.3 is required.
+Ruby 1.9.3 and Redis are required.
 
 Install it with rubygems:
 

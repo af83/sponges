@@ -4,6 +4,8 @@ When I build some worker, I want them to be like an army of spongebob, always
 stressed and eager to work. sponges helps you to build this army of sponge, to
 control them, and, well, kill them gracefully.
 
+/!\ sponges is still under development.
+
 ## Installation
 
 Ruby 1.9.3 is required.

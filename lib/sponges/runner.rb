@@ -5,10 +5,12 @@ module Sponges
       Sponges.logger.info "Runner #{name} started."
       @name = name
       @options = default_options.merge options
+      @redis = Nest.new('sponges')
     end
 
     def work(worker, method, *args, &block)
       @supervisor = fork_supervisor(worker, method, *args, &block)
+      @redis[:worker][@name][:supervisor].set @supervisor
       trap_signals
       Sponges.logger.info "Supervisor started with #{@supervisor} pid."
       if daemonize?

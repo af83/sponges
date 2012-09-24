@@ -8,14 +8,14 @@ module Sponges
     end
 
     def work(worker, method, *args, &block)
-      @Supervisor = fork_Supervisor(worker, method, *args, &block)
+      @supervisor = fork_supervisor(worker, method, *args, &block)
       trap_signals
-      Sponges.logger.info "Supervisor started with #{@Supervisor} pid."
+      Sponges.logger.info "Supervisor started with #{@supervisor} pid."
       if daemonize?
         Sponges.logger.info "Supervisor daemonized."
         Process.daemon
       else
-        Process.waitpid(@Supervisor) unless daemonize?
+        Process.waitpid(@supervisor) unless daemonize?
       end
     end
 
@@ -23,13 +23,13 @@ module Sponges
 
     def trap_signals
       Sponges::SIGNALS.each do |signal|
-        trap(signal) {|signal| kill_Supervisor(signal) }
+        trap(signal) {|signal| kill_supervisor(signal) }
       end
     end
 
-    def kill_Supervisor(signal)
+    def kill_supervisor(signal)
       Sponges.logger.info "Supervisor receive a #{signal} signal."
-      Process.kill :USR1, @Supervisor
+      Process.kill :USR1, @supervisor
     end
 
     def default_options
@@ -38,9 +38,9 @@ module Sponges
       }
     end
 
-    def fork_Supervisor(worker, method, *args, &block)
+    def fork_supervisor(worker, method, *args, &block)
       fork do
-        $PROGRAM_NAME = "#{@name}_Supervisor"
+        $PROGRAM_NAME = "#{@name}_supervisor"
         Supervisor.new(@name, @options, worker, method, *args, &block).start
       end
     end

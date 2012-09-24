@@ -35,11 +35,9 @@ module Sponges
     end
 
     def trap_signals
-      Sponges::SIGNALS.each do |signal|
+      (Sponges::SIGNALS + [:HUP]).each do |signal|
         trap(signal) do
-          Sponges.logger.info "Supervisor received #{signal} signal."
-          kill_them_all(signal)
-          Process.kill :USR1, Process.pid
+          handle_signal signal
         end
       end
       trap(:CHLD) do
@@ -56,6 +54,12 @@ module Sponges
           end
         end
       end
+    end
+
+    def handle_signal(signal)
+      Sponges.logger.info "Supervisor received #{signal} signal."
+      kill_them_all(signal)
+      Process.kill :USR1, @redis[:worker][@name][:supervisor].to_i
     end
 
     def kill_them_all(signal)

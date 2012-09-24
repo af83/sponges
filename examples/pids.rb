@@ -3,6 +3,10 @@ require_relative '../lib/sponges'
 
 class Worker
   def run
+    trap(:HUP) {
+      p "HUP"
+      exit 0
+    }
     puts Process.pid
     sleep 10
     run

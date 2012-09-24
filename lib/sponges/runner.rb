@@ -2,13 +2,13 @@
 module Sponges
   class Runner
     def initialize(name, options = {})
-      Sponges.logger.info "Runner #{name} started."
       @name = name
       @options = default_options.merge options
       @redis = Nest.new('sponges')
     end
 
     def work(worker, method, *args, &block)
+      Sponges.logger.info "Runner #{@name} start message received."
       @supervisor = fork_supervisor(worker, method, *args, &block)
       @redis[:worker][@name][:supervisor].set @supervisor
       trap_signals
@@ -18,6 +18,19 @@ module Sponges
         Process.daemon
       else
         Process.waitpid(@supervisor) unless daemonize?
+      end
+    end
+
+    def rest
+      Sponges.logger.info "Runner #{@name} stop message received."
+      if pid = @redis[:worker][@name][:supervisor].get
+        begin
+          Process.kill gracefully? ? :HUP : :QUIT, pid.to_i
+        rescue Errno::ESRCH => e
+          Sponges.logger.error e
+        end
+      else
+        Sponges.logger.info "No supervisor found."
       end
     end
 
@@ -49,6 +62,10 @@ module Sponges
 
     def daemonize?
       !!@options[:daemonize]
+    end
+
+    def gracefully?
+      !!@options[:gracefully]
     end
   end
 end

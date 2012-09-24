@@ -38,6 +38,7 @@ Sponges.configure do |config|
   config.worker        = Worker.new
   config.worker_name   = "bob"
   config.worker_method = :run
+  config.logger        = MyCustomLogger.new
 end
 
 Sponges.start
@@ -59,7 +60,6 @@ ruby example.rb start -d
 
 ## TODO
 
-* Logging solution
 * Specing
 * Storing pids
 * Bin

@@ -4,7 +4,9 @@ module Sponges
     def initialize(name, options, worker, method, *args, &block)
       @name, @options = name, options
       @worker, @method, @args, @block = worker, method, args, block
-      @pids = []
+      @redis = Nest.new('sponges')
+      @redis[:workers].sadd name
+      @pids = @redis[:worker][name][:pids]
       @children_seen = 0
     end
 
@@ -25,7 +27,7 @@ module Sponges
         Sponges::WorkerBuilder.new(@worker, @method, *@args, &@block).start
       end
       Sponges.logger.info "Supervisor create a child with #{pid} pid."
-      @pids << pid
+      @pids.sadd pid
     end
 
     def children_name
@@ -35,17 +37,18 @@ module Sponges
     def trap_signals
       Sponges::SIGNALS.each do |signal|
         trap(signal) do
+          Sponges.logger.info "Supervisor received #{signal} signal."
           kill_them_all(signal)
           Process.kill :USR1, Process.pid
         end
       end
       trap(:CHLD) do
-        @pids.each do |pid|
+        pids.each do |pid|
           begin
-            dead = Process.waitpid(pid, Process::WNOHANG)
+            dead = Process.waitpid(pid.to_i, Process::WNOHANG)
             if dead
               Sponges.logger.warn "Child #{dead} died. Restarting a new one..."
-              @pids.delete(dead)
+              @pids.srem dead
               fork_children
             end
           rescue Errno::ECHILD => e
@@ -56,14 +59,19 @@ module Sponges
     end
 
     def kill_them_all(signal)
-      @pids.each do |pid|
+      pids.each do |pid|
         begin
-          Process.kill signal, pid
+          Process.kill signal, pid.to_i
+          @pids.srem pid
           Sponges.logger.info "Child #{pid} receive a #{signal} signal."
         rescue Errno::ESRCH => e
           p e
         end
       end
+    end
+
+    def pids
+      Array(@pids.smembers)
     end
   end
 end

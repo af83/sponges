@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'boson/runner'
 require 'logger'
+require 'nest'
 require_relative 'sponges/configuration'
 require_relative 'sponges/cpu_infos'
 require_relative 'sponges/worker_builder'

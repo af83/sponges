@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.add_dependency "boson"
+  s.add_dependency "nest"
 end

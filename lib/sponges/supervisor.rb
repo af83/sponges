@@ -69,7 +69,7 @@ module Sponges
           @pids.srem pid
           Sponges.logger.info "Child #{pid} receive a #{signal} signal."
         rescue Errno::ESRCH => e
-          p e
+          Sponges.logger.error e
         end
       end
     end

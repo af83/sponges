@@ -19,6 +19,8 @@ gem "sponges"
 ```
 
 ## Usage
+In a file called `example.rb`:
+
 ``` ruby
 # The worker class is the one you want to daemonize.
 #
@@ -32,12 +34,27 @@ class Worker
   end
 end
 
-options = {
-  size: 3,
-  log_dir: "/tmp"
-}
+Sponges.configure do |config|
+  config.worker        = Worker.new
+  config.worker_name   = "bob"
+  config.worker_method = :run
+end
 
-Sponges::Runner.new("bob").work(worker.new, :run)
+Sponges.start
+```
+See the help message :
+``` bash
+ruby example.rb
+```
+
+Start workers :
+``` bash
+ruby example.rb start
+```
+
+Start workers and daemonize them:
+``` bash
+ruby example.rb start -d
 ```
 
 ## TODO

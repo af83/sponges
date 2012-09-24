@@ -23,8 +23,11 @@ module Sponges
       puts "Workers:"
       Array(redis[:workers].smembers).each do |worker|
         puts worker.rjust(6)
+        puts "supervisor".rjust(15)
+        puts redis[:worker][worker][:supervisor].get.rjust(12)
+        puts "children".rjust(13)
         Array(redis[:worker][worker][:pids].smembers).each do |pid|
-          puts pid.rjust(worker.size + 8)
+          puts pid.rjust(12)
         end
       end
       puts "\n"

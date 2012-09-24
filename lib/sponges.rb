@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'boson/runner'
+require 'logger'
 require_relative 'sponges/configuration'
 require_relative 'sponges/cpu_infos'
 require_relative 'sponges/worker_builder'
@@ -19,4 +20,10 @@ module Sponges
     Sponges::Cli.start
   end
   module_function :start
+
+  def logger
+    return @logger if @logger
+    @logger = Sponges::Configuration.logger || Logger.new(STDOUT)
+  end
+  module_function :logger
 end

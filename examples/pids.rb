@@ -10,8 +10,9 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.worker_name   = "bob"
   config.worker        = Worker.new
+  config.worker_name   = "bob"
   config.worker_method = :run
 end
-Sponges::Runner.new("bob").work(Worker.new, :run)
+
+Sponges::Cli.start

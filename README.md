@@ -1,8 +1,9 @@
 # sponges
 
-When I build some worker, I want them to be like an army of spongebob, always
+When I build some workers, I want them to be like an army of spongebob, always
 stressed and eager to work. sponges helps you to build this army of sponge, to
-control them, and, well, kill them gracefully.
+control them, and, well, kill them gracefully. Making them stressed and eager
+to work will be your job. :)
 
 /!\ sponges is still under development.
 
@@ -30,15 +31,16 @@ require 'sponges'
 
 class Worker
   def run
+    # Trap the HUP signal, set a boolean to true.
     trap(:HUP) {
       Sponges.logger.info "HUP signal trapped, clean stop."
       @hup = true
     }
     Sponges.logger.info Process.pid
-    if @hup
+    if @hup # is true, we need to shutdown this worker
       Sponges.logger.info "HUP signal trapped, shutdown..."
-      exit 0
-    else
+      exit 0 # everything's fine, we can exit
+    else # this worker can continue is work
       sleep rand(20)
       run
     end

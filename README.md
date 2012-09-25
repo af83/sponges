@@ -103,6 +103,7 @@ ruby example.rb list
 
 * Specing.
 * Implement a restart command.
+* make compatible with 1.9.2
 
 ## Copyright
 

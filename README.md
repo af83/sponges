@@ -104,6 +104,7 @@ ruby example.rb list
 * Specing.
 * Implement a restart command.
 * make compatible with 1.9.2
+* Increment / decrement workers pool size with `TTIN` and `TTOUT`.
 
 ## Copyright
 

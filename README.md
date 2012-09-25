@@ -5,7 +5,13 @@ stressed and eager to work. sponges helps you to build this army of sponge, to
 control them, and, well, kill them gracefully. Making them stressed and eager
 to work will be your job. :)
 
-/!\ sponges is still under development.
+## Is it any good?
+
+[Yes.](http://news.ycombinator.com/item?id=3067434)
+
+## Production ready ?
+
+Not yet, but soon.
 
 ## Installation
 

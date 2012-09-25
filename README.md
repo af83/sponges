@@ -95,8 +95,8 @@ ruby example.rb list
 
 ## TODO
 
-* Specing
-* Bin
+* Specing.
+* Implement a restart command.
 
 ## Copyright
 

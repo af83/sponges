@@ -4,12 +4,17 @@ require_relative '../lib/sponges'
 class Worker
   def run
     trap(:HUP) {
-      p "HUP"
-      exit 0
+      Sponges.logger.info "HUP signal trapped, clean stop."
+      @hup = true
     }
-    puts Process.pid
-    sleep 10
-    run
+    Sponges.logger.info Process.pid
+    if @hup
+      Sponges.logger.info "HUP signal trapped, shutdown..."
+      exit 0
+    else
+      sleep rand(20)
+      run
+    end
   end
 end
 

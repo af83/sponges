@@ -30,9 +30,18 @@ require 'sponges'
 
 class Worker
   def run
-    puts Process.pid
-    sleep 1
-    run
+    trap(:HUP) {
+      Sponges.logger.info "HUP signal trapped, clean stop."
+      @hup = true
+    }
+    Sponges.logger.info Process.pid
+    if @hup
+      Sponges.logger.info "HUP signal trapped, shutdown..."
+      exit 0
+    else
+      sleep rand(20)
+      run
+    end
   end
 end
 
@@ -59,6 +68,23 @@ Start workers and daemonize them:
 ``` bash
 ruby example.rb start -d
 ```
+
+Start 8 instances of workers and daemonize them:
+``` bash
+ruby example.rb start -d -s 8
+```
+
+Stop workers with a `QUIT` signal :
+``` bash
+ruby example.rb stop
+```
+
+Stop workers with a `HUP` signal :
+``` bash
+ruby example.rb stop -g
+```
+In this case, you gonna have to trap the `HUP` signal, and handle a clean stop
+from each workers. The point is to wait from a task to be done before quitting.
 
 Show a list of workers and their children.
 ``` bash

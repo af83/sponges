@@ -59,6 +59,9 @@ module Sponges
     def handle_signal(signal)
       Sponges.logger.info "Supervisor received #{signal} signal."
       kill_them_all(signal)
+      Process.waitall
+      Sponges.logger.info "Children shutdown complete."
+      Sponges.logger.info "Supervisor shutdown. Exiting..."
       Process.kill :USR1, @redis[:worker][@name][:supervisor].to_i
     end
 

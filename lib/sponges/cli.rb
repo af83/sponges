@@ -2,6 +2,7 @@
 module Sponges
   class Cli  < Boson::Runner
     option :daemonize,  type: :boolean
+    option :size,       type: :numeric
     desc "Start workers"
     def start(options = {})
       Sponges::Runner.new(Sponges::Configuration.worker_name, options).

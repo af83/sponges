@@ -17,8 +17,8 @@ module Sponges
   end
   module_function :configure
 
-  def start
-    Sponges::Cli.start
+  def start(options = ARGV)
+    Sponges::Cli.start(options)
   end
   module_function :start
 

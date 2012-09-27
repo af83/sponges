@@ -1,11 +1,11 @@
 # sponges
 
-When I build some workers, I want them to be like an army of spongebob, always
-stressed and eager to work. `sponges` helps you to build this army of sponges, to
+When I build workers, I want them to be like an army of spongebobs, always
+stressed and eager to work. `sponges` helps you build this army of sponges, to
 control them, and, well, to kill them gracefully. Making them stressed and eager
-to work will be your job. :)
+to work is your job. :)
 
-Internally, `sponges` strongly relies on Unix signal.
+Internally, `sponges` strongly relies on Unix signals.
 
 ## Is it any good?
 
@@ -48,7 +48,7 @@ class Worker
     if @hup # is true, we need to shutdown this worker
       Sponges.logger.info "HUP signal trapped, shutdown..."
       exit 0 # everything's fine, we can exit
-    else # this worker can continue is work
+    else # this worker can continue its work
       sleep rand(20)
       run
     end
@@ -79,7 +79,7 @@ Start workers and daemonize them:
 ruby example.rb start -d
 ```
 
-Start 8 instances of workers and daemonize them:
+Start 8 instances of the worker and daemonize them:
 ``` bash
 ruby example.rb start -d -s 8
 ```
@@ -93,8 +93,8 @@ Stop workers with a `HUP` signal :
 ``` bash
 ruby example.rb stop -g
 ```
-In this case, you gonna have to trap the `HUP` signal, and handle a clean stop
-from each workers. The point is to wait from a task to be done before quitting.
+In this case, you will have to trap the `HUP` signal, and handle a clean stop
+from each workers. The point is to wait for a task to be done before quitting.
 
 Show a list of workers and their children.
 ``` bash

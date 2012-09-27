@@ -1,11 +1,11 @@
 # sponges
 
 When I build some workers, I want them to be like an army of spongebob, always
-stressed and eager to work. sponges helps you to build this army of sponge, to
-control them, and, well, kill them gracefully. Making them stressed and eager
+stressed and eager to work. `sponges` helps you to build this army of sponges, to
+control them, and, well, to kill them gracefully. Making them stressed and eager
 to work will be your job. :)
 
-Internally, sponges strongly rely on Unix signal.
+Internally, `sponges` strongly relies on Unix signal.
 
 ## Is it any good?
 

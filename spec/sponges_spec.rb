@@ -20,9 +20,8 @@ describe Sponges do
     end
 
     it 'can be started and killed' do
-      ARGV = ['start']
       fork {
-        Sponges.start
+        Sponges.start(['start'])
       }
       sleep 1
       find_supervisor.cmdline.should eq('test_supervisor')

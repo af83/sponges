@@ -4,7 +4,7 @@ module Sponges
     def initialize(name, options = {})
       @name = name
       @options = default_options.merge options
-      @redis = Nest.new('sponges')
+      @redis = Nest.new('sponges', Configuration.redis || Redis.new)
     end
 
     def work(worker, method, *args, &block)

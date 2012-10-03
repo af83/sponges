@@ -104,10 +104,11 @@ ruby example.rb list
 
 ## TODO
 
+* make compatible with 1.9.2
 * Specing.
 * Implement a restart command.
-* make compatible with 1.9.2
 * Increment / decrement workers pool size with `TTIN` and `TTOUT`.
+* Check on OSX.
 
 ## Copyright
 

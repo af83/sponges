@@ -4,8 +4,9 @@ module Sponges
     def initialize(name, options, worker, method, *args, &block)
       @name, @options = name, options
       @worker, @method, @args, @block = worker, method, args, block
-      @redis = Nest.new('sponges')
+      @redis = Nest.new('sponges', Configuration.redis || Redis.new)[Socket.gethostname]
       @redis[:workers].sadd name
+      @redis[:worker][@name][:supervisor].set Process.pid
       @pids = @redis[:worker][name][:pids]
       @children_seen = 0
     end
@@ -62,7 +63,12 @@ module Sponges
       Process.waitall
       Sponges.logger.info "Children shutdown complete."
       Sponges.logger.info "Supervisor shutdown. Exiting..."
-      Process.kill :USR1, @redis[:worker][@name][:supervisor].to_i
+      pid = @redis[:worker][@name][:supervisor]
+      @redis[:worker][@name][:supervisor].del
+      Sponges.logger.info @redis[:workers].smembers
+      Sponges.logger.info @name
+      Sponges.logger @redis[:workers].srem @name
+      Process.kill :USR1, pid.to_i
     end
 
     def kill_them_all(signal)

@@ -5,12 +5,12 @@ module Sponges
       @name = name
       @options = default_options.merge options
       @redis = Nest.new('sponges', Configuration.redis || Redis.new)
+      @redis[:hostnames].sadd Socket.gethostname
     end
 
     def work(worker, method, *args, &block)
       Sponges.logger.info "Runner #{@name} start message received."
       @supervisor = fork_supervisor(worker, method, *args, &block)
-      @redis[:worker][@name][:supervisor].set @supervisor
       trap_signals
       Sponges.logger.info "Supervisor started with #{@supervisor} pid."
       if daemonize?
@@ -23,7 +23,7 @@ module Sponges
 
     def rest
       Sponges.logger.info "Runner #{@name} stop message received."
-      if pid = @redis[:worker][@name][:supervisor].get
+      if pid = @redis[Socket.gethostname][:worker][@name][:supervisor].get
         begin
           Process.kill gracefully? ? :HUP : :QUIT, pid.to_i
         rescue Errno::ESRCH => e

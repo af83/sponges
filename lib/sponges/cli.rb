@@ -28,13 +28,16 @@ module Sponges
     |_|                |___/
 }.gsub(/^\n/, '') + "\n"
       puts "Workers:"
-      Array(redis[:workers].smembers).each do |worker|
-        puts worker.rjust(6)
-        puts "supervisor".rjust(15)
-        puts redis[:worker][worker][:supervisor].get.rjust(12)
-        puts "children".rjust(13)
-        Array(redis[:worker][worker][:pids].smembers).each do |pid|
-          puts pid.rjust(12)
+      Array(redis[:hostnames].smembers).each do |hostname|
+        puts hostname.rjust(6)
+        Array(redis[hostname][:workers].smembers).each do |worker|
+          puts worker.rjust(6)
+          puts "supervisor".rjust(15)
+          puts redis[hostname][:worker][worker][:supervisor].get.rjust(12)
+          puts "children".rjust(13)
+          Array(redis[hostname][:worker][worker][:pids].smembers).each do |pid|
+            puts pid.rjust(12)
+          end
         end
       end
       puts "\n"

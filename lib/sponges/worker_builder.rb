@@ -10,6 +10,9 @@ module Sponges
 
     def start
       trap_signals
+      at_exit do
+        Sponges.logger.info "Child exits."
+      end
       @worker.send(@method, *@args, &@block)
     end
 

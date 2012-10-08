@@ -16,6 +16,10 @@ module Sponges
         fork_children
       end
       trap_signals
+      at_exit do
+        Sponges.logger.info "Supervisor exits."
+      end
+      Sponges.logger.info "Supervisor started, waiting for messages."
       sleep
     end
 

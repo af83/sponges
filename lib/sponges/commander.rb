@@ -14,7 +14,15 @@ module Sponges
       if pid = @redis[:worker][@name][:supervisor].get
         begin
           Process.kill gracefully? ? :HUP : :QUIT, pid.to_i
-          Process.waitpid pid.to_i
+          # TODO: wait for process kill. Since it's not its child, this process
+          # can't wait for it.
+          #
+          # We'll have to use a different approach. A few ideas:
+          #   * check process exitence with a Process.kill 0, pid.to_i in a
+          #   loop.
+          #   * use messaging, we have already Redis, so blpop could be a good
+          #   fit here.
+          #
         rescue Errno::ESRCH => e
           Sponges.logger.error e
         end

@@ -1,5 +1,8 @@
 # encoding: utf-8
 module Sponges
+  # This class concern is to build a worker instance, set some signals handlers
+  # and make it start its job.
+  #
   class WorkerBuilder
     def initialize(worker, method, *args, &block)
       @worker, @method, @args, @block = worker, method, args, block

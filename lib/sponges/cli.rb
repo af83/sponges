@@ -1,5 +1,7 @@
 # encoding: utf-8
 module Sponges
+  # This class concern is to expose a nice CLI interface.
+  #
   class Cli  < Boson::Runner
     option :daemonize,  type: :boolean
     option :size,       type: :numeric

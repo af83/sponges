@@ -1,5 +1,8 @@
 # encoding: utf-8
 module Sponges
+  # This class concern is to create a Supervisor, set some signals handlers and
+  # watch over the supervisor.
+  #
   class Runner
     def initialize(name, options = {})
       @name = name

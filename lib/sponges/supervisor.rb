@@ -65,9 +65,7 @@ module Sponges
       Sponges.logger.info "Supervisor shutdown. Exiting..."
       pid = @redis[:worker][@name][:supervisor]
       @redis[:worker][@name][:supervisor].del
-      Sponges.logger.info @redis[:workers].smembers
-      Sponges.logger.info @name
-      Sponges.logger @redis[:workers].srem @name
+      @redis[:workers].srem @name
       Process.kill :USR1, pid.to_i
     end
 

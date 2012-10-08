@@ -12,7 +12,7 @@ module Sponges
     option :gracefully, type: :boolean
     desc "Stop workers"
     def stop(options = {})
-      Sponges::Runner.new(Sponges::Configuration.worker_name, options).
+      Sponges::Commander.new(Sponges::Configuration.worker_name, options).
         rest
     end
 

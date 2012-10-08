@@ -8,6 +8,7 @@ require_relative 'sponges/cpu_infos'
 require_relative 'sponges/worker_builder'
 require_relative 'sponges/supervisor'
 require_relative 'sponges/runner'
+require_relative 'sponges/commander'
 require_relative 'sponges/cli'
 
 module Sponges

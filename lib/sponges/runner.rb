@@ -21,19 +21,6 @@ module Sponges
       end
     end
 
-    def rest
-      Sponges.logger.info "Runner #{@name} stop message received."
-      if pid = @redis[Socket.gethostname][:worker][@name][:supervisor].get
-        begin
-          Process.kill gracefully? ? :HUP : :QUIT, pid.to_i
-        rescue Errno::ESRCH => e
-          Sponges.logger.error e
-        end
-      else
-        Sponges.logger.info "No supervisor found."
-      end
-    end
-
     private
 
     def trap_signals
@@ -62,10 +49,6 @@ module Sponges
 
     def daemonize?
       !!@options[:daemonize]
-    end
-
-    def gracefully?
-      !!@options[:gracefully]
     end
   end
 end

@@ -17,7 +17,7 @@ Not yet, but soon.
 
 ## Installation
 
-Ruby 1.9.3 and Redis are required.
+Ruby 1.9.2 (or superior) and Redis are required.
 
 Install it with rubygems:
 
@@ -104,7 +104,6 @@ ruby example.rb list
 
 ## TODO
 
-* make compatible with 1.9.2
 * Specing.
 * Implement a restart command.
 * Increment / decrement workers pool size with `TTIN` and `TTOUT`.

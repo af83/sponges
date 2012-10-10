@@ -15,7 +15,7 @@ module Sponges
     desc "Stop workers"
     def stop(options = {})
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).
-        rest
+        stop
     end
 
     desc "Show running processes"

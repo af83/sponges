@@ -9,7 +9,7 @@ module Sponges
       @redis = Nest.new('sponges', Configuration.redis || Redis.new)[Socket.gethostname]
     end
 
-    def rest
+    def stop
       Sponges.logger.info "Runner #{@name} stop message received."
       if pid = @redis[:worker][@name][:supervisor].get
         begin

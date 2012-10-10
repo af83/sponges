@@ -18,6 +18,15 @@ module Sponges
         stop
     end
 
+    option :daemonize,  type: :boolean
+    option :size,       type: :numeric
+    option :gracefully, type: :boolean
+    desc "Restart workers"
+    def restart(options = {})
+      stop(options)
+      start(options)
+    end
+
     desc "Show running processes"
     def list
       redis = Nest.new('sponges')

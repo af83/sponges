@@ -55,7 +55,7 @@ module Sponges
               fork_children
             end
           rescue Errno::ECHILD => e
-            Sponges.logger.error e
+            # Don't panic
           end
         end
       end

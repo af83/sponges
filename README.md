@@ -85,6 +85,11 @@ Start 8 instances of the worker and daemonize them:
 ruby example.rb start -d -s 8
 ```
 
+Retart gracefully 4 instances of the worker and daemonize them:
+``` bash
+ruby example.rb restart -g -d -s 4
+```
+
 Stop workers with a `QUIT` signal :
 ``` bash
 ruby example.rb stop

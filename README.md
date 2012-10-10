@@ -110,9 +110,7 @@ ruby example.rb list
 ## TODO
 
 * Specing.
-* Implement a restart command.
 * Increment / decrement workers pool size with `TTIN` and `TTOUT`.
-* Use Redis as messaging system to supervise workers across several hosts ?
 * Check on OSX.
 
 ## Copyright

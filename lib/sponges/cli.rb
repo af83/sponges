@@ -8,7 +8,8 @@ module Sponges
     desc "Start workers"
     def start(options = {})
       Sponges::Runner.new(Sponges::Configuration.worker_name, options).
-        work(Sponges::Configuration.worker, Sponges::Configuration.worker_method)
+        work(Sponges::Configuration.worker, Sponges::Configuration.worker_method,
+             Sponges::Configuration.worker_args)
     end
 
     option :gracefully, type: :boolean

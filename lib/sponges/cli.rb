@@ -7,9 +7,13 @@ module Sponges
     option :size,       type: :numeric
     desc "Start workers"
     def start(options = {})
-      Sponges::Runner.new(Sponges::Configuration.worker_name, options).
-        work(Sponges::Configuration.worker, Sponges::Configuration.worker_method,
+      worker = Sponges::Runner.new(Sponges::Configuration.worker_name, options)
+      if Sponges::Configuration.worker_args
+        worker.work(Sponges::Configuration.worker, Sponges::Configuration.worker_method,
              Sponges::Configuration.worker_args)
+      else
+        worker.work(Sponges::Configuration.worker, Sponges::Configuration.worker_method)
+      end
     end
 
     option :gracefully, type: :boolean

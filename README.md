@@ -59,6 +59,7 @@ Sponges.configure do |config|
   config.worker        = Worker.new           # mandatory
   config.worker_name   = "bob"                # mandatory
   config.worker_method = :run                 # mandatory
+  config.worker_args   = {first: true}        # mandatory
   config.logger        = MyCustomLogger.new   # optionnal
   config.redis         = Redis.new            # optionnal
 end

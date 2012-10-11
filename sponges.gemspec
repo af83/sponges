@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage      = "https://github.com/AF83/sponges"
   s.summary       = "Turn any ruby object in a daemons controlling an army of sponges."
   s.description   = "When I build some worker, I want them to be like an army of spongebob, always stressed and eager to work. sponges helps you to build this army of sponge, to control them, and, well, kill them gracefully."
-  s.files         = `git ls-files lib LICENSE REAMDE.md`.split("\n")
+  s.files         = `git ls-files lib LICENSE README.md`.split("\n")
   s.platform      = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.add_dependency "boson"

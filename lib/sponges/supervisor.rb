@@ -4,9 +4,7 @@ module Sponges
     def initialize(name, options, worker, method, *args, &block)
       @name, @options = name, options
       @worker, @method, @args, @block = worker, method, args, block
-      @redis = Nest.new('sponges', Configuration.redis || Redis.new)[Socket.gethostname]
-      @redis[:workers].sadd name
-      @redis[:worker][@name][:supervisor].set Process.pid
+      set_up_redis
       @pids = @redis[:worker][name][:pids]
       @children_seen = 0
     end
@@ -24,6 +22,16 @@ module Sponges
     end
 
     private
+
+    def set_up_redis
+      if Configuration.redis
+        redis_client = Configuration.redis
+        redis_client.client.reconnect
+      end
+      @redis = Nest.new('sponges', redis_client || Redis.new)[Socket.gethostname]
+      @redis[:workers].sadd @name
+      @redis[:worker][@name][:supervisor].set Process.pid
+    end
 
     def fork_children
       name = children_name

@@ -22,6 +22,7 @@ Sponges.configure do |config|
   config.worker        = Worker.new
   config.worker_name   = "bob"
   config.worker_method = :run
+  config.redis         = Redis.new
 end
 
 Sponges.start

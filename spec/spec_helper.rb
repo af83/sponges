@@ -2,14 +2,21 @@
 require 'sponges'
 require 'sys/proctable'
 
+RSpec.configure do |config|
+  config.before(:all) do
+    kill_supervisor
+    sleep 1
+    fork {
+      Sponges.start(['start'])
+    }
+  end
+end
+
 class Worker
   def self.name
     '_sponges_test'
   end
   def run
-    trap(:HUP) {
-      exit
-    }
     sleep 1
     run
   end

@@ -15,16 +15,30 @@ describe Sponges do
 
   context 'start' do
 
-    before do
+    before :all do
       kill_supervisor
-    end
-
-    it 'can be started and killed' do
       fork {
         Sponges.start(['start'])
       }
       sleep 1
+    end
+
+    it 'can be started' do
       find_supervisor.cmdline.should eq(supervisor_name)
+    end
+
+    it 'have childs' do
+      find_childs.size.should eq CpuInfo.cores_size
+    end
+
+    it 'can increase and decrease childs size' do
+      Process.kill :TTIN, find_supervisor.pid
+      sleep 1
+      find_childs.size.should eq(CpuInfo.cores_size + 1)
+
+      Process.kill :TTOU, find_supervisor.pid
+      sleep 1
+      find_childs.size.should eq(CpuInfo.cores_size)
     end
   end
 end

@@ -101,8 +101,8 @@ module Sponges
 
     def kill_one(pid, signal)
       begin
-        Process.kill signal, pid.to_i
         @pids.srem pid
+        Process.kill signal, pid.to_i
         Sponges.logger.info "Child #{pid} receive a #{signal} signal."
       rescue Errno::ESRCH => e
         # Don't panic

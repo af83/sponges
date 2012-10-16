@@ -7,7 +7,10 @@ class Worker
     '_sponges_test'
   end
   def run
-    sleep rand(20)
+    trap(:HUP) {
+      exit
+    }
+    sleep 1
     run
   end
 end
@@ -22,8 +25,16 @@ def supervisor_name
   "#{Worker.name}_supervisor"
 end
 
+def childs_name
+  "#{Worker.name}_child"
+end
+
 def find_supervisor
-  Sys::ProcTable.ps.select{|f| f.cmdline == supervisor_name }.first
+  Sys::ProcTable.ps.select {|f| f.cmdline == supervisor_name }.first
+end
+
+def find_childs
+  Sys::ProcTable.ps.select {|f| f.cmdline =~ /^#{childs_name}/ }
 end
 
 def kill_supervisor

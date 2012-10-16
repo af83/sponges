@@ -38,7 +38,7 @@ module Sponges
 
     def default_options
       {
-        size: CpuInfo.cores_size
+        size: Machine::Info::Cpu.cores_size
       }
     end
 

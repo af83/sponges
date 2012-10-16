@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.add_dependency "boson"
   s.add_dependency "nest"
+  s.add_dependency "machine"
   s.add_development_dependency 'rspec', '~>2.10.0'
-  s.add_development_dependency 'sys-proctable'
 end

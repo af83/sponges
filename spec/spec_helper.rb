@@ -5,10 +5,10 @@ require 'sys/proctable'
 RSpec.configure do |config|
   config.before(:all) do
     kill_supervisor
-    sleep 1
     fork {
       Sponges.start(['start'])
     }
+    sleep 1
   end
 end
 

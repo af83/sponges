@@ -19,17 +19,17 @@ describe Sponges do
     end
 
     it 'have childs' do
-      find_childs.size.should eq CpuInfo.cores_size
+      find_childs.size.should eq Machine::Info::Cpu.cores_size
     end
 
     it 'can increase and decrease childs size' do
       Process.kill :TTIN, find_supervisor.pid
       sleep 1
-      find_childs.size.should eq(CpuInfo.cores_size + 1)
+      find_childs.size.should eq(Machine::Info::Cpu.cores_size + 1)
 
       Process.kill :TTOU, find_supervisor.pid
       sleep 1
-      find_childs.size.should eq(CpuInfo.cores_size)
+      find_childs.size.should eq(Machine::Info::Cpu.cores_size)
     end
   end
 
@@ -38,7 +38,7 @@ describe Sponges do
       childs = find_childs
       Process.kill :INT, childs.first.pid
       sleep 2
-      find_childs.size.should eq(CpuInfo.cores_size)
+      find_childs.size.should eq(Machine::Info::Cpu.cores_size)
     end
   end
 end

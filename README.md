@@ -13,7 +13,7 @@ Internally, `sponges` strongly relies on Unix signals.
 
 ## Production ready ?
 
-Not yet, but soon.
+Not yet, but soon. Beware, api can change in 0.0.x.
 
 ## Installation
 

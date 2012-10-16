@@ -108,6 +108,11 @@ Increment worker's pool size :
 ruby example.rb increment # will add a worker to the pool.
 ```
 
+Decrement worker's pool size :
+``` bash
+ruby example.rb decrement # will remove a worker to the pool.
+```
+
 Show a list of workers and their children.
 ``` bash
 ruby example.rb list

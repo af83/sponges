@@ -38,6 +38,12 @@ module Sponges
         increment
     end
 
+    desc "Decrement workers pool size"
+    def decrement(options = {})
+      Sponges::Commander.new(Sponges::Configuration.worker_name, options).
+        decrement
+    end
+
     desc "Show running processes"
     def list
       redis = Nest.new('sponges')

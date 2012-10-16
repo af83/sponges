@@ -40,6 +40,19 @@ module Sponges
       end
     end
 
+    def decrement
+      Sponges.logger.info "Runner #{@name} decrement message received."
+      if pid = @redis[:worker][@name][:supervisor].get
+        begin
+          Process.kill :TTOU, pid.to_i
+        rescue Errno::ESRCH => e
+          Sponges.logger.error e
+        end
+      else
+        Sponges.logger.info "No supervisor found."
+      end
+    end
+
     private
 
     def alive?(pid)

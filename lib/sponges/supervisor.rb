@@ -57,6 +57,14 @@ module Sponges
         Sponges.logger.warn "Supervisor increment child's pool by one."
         fork_children
       end
+      trap(:TTOU) do
+        Sponges.logger.warn "Supervisor decrement child's pool by one."
+        if pids.first
+          kill_one(pids.first, :HUP)
+        else
+          Sponges.logger.warn "No more child to kill."
+        end
+      end
       trap(:CHLD) do
         pids.each do |pid|
           begin
@@ -87,13 +95,17 @@ module Sponges
 
     def kill_them_all(signal)
       pids.each do |pid|
-        begin
-          Process.kill signal, pid.to_i
-          @pids.srem pid
-          Sponges.logger.info "Child #{pid} receive a #{signal} signal."
-        rescue Errno::ESRCH => e
-          # Don't panic
-        end
+        kill_one(pid, signal)
+      end
+    end
+
+    def kill_one(pid, signal)
+      begin
+        Process.kill signal, pid.to_i
+        @pids.srem pid
+        Sponges.logger.info "Child #{pid} receive a #{signal} signal."
+      rescue Errno::ESRCH => e
+        # Don't panic
       end
     end
 

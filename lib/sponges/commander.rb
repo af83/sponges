@@ -27,6 +27,19 @@ module Sponges
       end
     end
 
+    def increment
+      Sponges.logger.info "Runner #{@name} increment message received."
+      if pid = @redis[:worker][@name][:supervisor].get
+        begin
+          Process.kill :TTIN, pid.to_i
+        rescue Errno::ESRCH => e
+          Sponges.logger.error e
+        end
+      else
+        Sponges.logger.info "No supervisor found."
+      end
+    end
+
     private
 
     def alive?(pid)

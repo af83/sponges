@@ -2,7 +2,7 @@
 module Sponges
   # This class concern is to expose a nice CLI interface.
   #
-  class Cli  < Boson::Runner
+  class Cli < Boson::Runner
     option :daemonize,  type: :boolean
     option :size,       type: :numeric
     desc "Start workers"
@@ -30,6 +30,12 @@ module Sponges
     def restart(options = {})
       stop(options)
       start(options)
+    end
+
+    desc "Increment workers pool size"
+    def increment(options = {})
+      Sponges::Commander.new(Sponges::Configuration.worker_name, options).
+        increment
     end
 
     desc "Show running processes"

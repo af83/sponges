@@ -103,6 +103,11 @@ ruby example.rb stop -g
 In this case, you will have to trap the `HUP` signal, and handle a clean stop
 from each workers. The point is to wait for a task to be done before quitting.
 
+Increment worker's pool size :
+``` bash
+ruby example.rb increment # will add a worker to the pool.
+```
+
 Show a list of workers and their children.
 ``` bash
 ruby example.rb list

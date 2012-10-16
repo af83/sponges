@@ -53,6 +53,10 @@ module Sponges
           handle_signal signal
         end
       end
+      trap(:TTIN) do
+        Sponges.logger.warn "Supervisor increment child's pool by one."
+        fork_children
+      end
       trap(:CHLD) do
         pids.each do |pid|
           begin

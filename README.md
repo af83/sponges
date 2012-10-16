@@ -120,8 +120,7 @@ ruby example.rb list
 
 ## TODO
 
-* Specing.
-* Increment / decrement workers pool size with `TTIN` and `TTOUT`.
+* More specs.
 * Check on OSX.
 
 ## Copyright

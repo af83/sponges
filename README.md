@@ -83,7 +83,7 @@ ruby example.rb start -d
 
 Start 8 instances of the worker and daemonize them:
 ``` bash
-ruby example.rb start -d -s 8
+ruby example.rb start -d -s 8 # By default, size equals cpu core's size.
 ```
 
 Retart gracefully 4 instances of the worker and daemonize them:
@@ -120,7 +120,6 @@ ruby example.rb list
 
 ## TODO
 
-* More specs.
 * Check on OSX.
 
 ## Copyright

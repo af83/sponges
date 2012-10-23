@@ -122,6 +122,12 @@ ruby example.rb list
 
 * Check on OSX.
 
+## Acknowledgements
+
+sponges would not have been the same without [Jesse
+Storimer](https://github.com/jstorimer) and his awesome book about
+[Unix](http://workingwithunixprocesses.com/).
+
 ## Copyright
 
 MIT. See LICENSE for further details.

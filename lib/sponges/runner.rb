@@ -4,20 +4,20 @@ module Sponges
   # watch over the supervisor.
   #
   class Runner
-    def initialize(name, options = {})
-      @name = name
+    def initialize(name, options = {}, block)
+      @name, @block = name, block
       @options = default_options.merge options
       @redis = Nest.new('sponges', Configuration.redis || Redis.new)
       @redis[:hostnames].sadd Socket.gethostname
     end
 
-    def work(worker, method, *args, &block)
+    def start
       if daemonize?
         Sponges.logger.info "Supervisor daemonized."
         Process.daemon
       end
       Sponges.logger.info "Runner #{@name} start message received."
-      @supervisor = fork_supervisor(worker, method, *args, &block)
+      @supervisor = fork_supervisor
       trap_signals
       Sponges.logger.info "Supervisor started with #{@supervisor} pid."
       Process.waitpid(@supervisor) unless daemonize?
@@ -42,10 +42,10 @@ module Sponges
       }
     end
 
-    def fork_supervisor(worker, method, *args, &block)
+    def fork_supervisor
       fork do
         $PROGRAM_NAME = "#{@name}_supervisor"
-        Supervisor.new(@name, @options, worker, method, *args, &block).start
+        Supervisor.new(@name, @options, @block).start
       end
     end
 

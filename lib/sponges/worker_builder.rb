@@ -4,8 +4,8 @@ module Sponges
   # and make it start its job.
   #
   class WorkerBuilder
-    def initialize(worker, method, *args, &block)
-      @worker, @method, @args, @block = worker, method, args, block
+    def initialize(block)
+      @block = block
     end
 
     def start
@@ -13,7 +13,7 @@ module Sponges
       at_exit do
         Sponges.logger.info "Child exits."
       end
-      @worker.send(@method, *@args, &@block)
+      @block.call
     end
 
     private

@@ -1,9 +1,8 @@
 # encoding: utf-8
 module Sponges
   class Supervisor
-    def initialize(name, options, worker, method, *args, &block)
-      @name, @options = name, options
-      @worker, @method, @args, @block = worker, method, args, block
+    def initialize(name, options, block)
+      @name, @options, @block = name, options, block
       set_up_redis
       @pids = @redis[:worker][name][:pids]
       @children_seen = 0
@@ -37,7 +36,7 @@ module Sponges
       name = children_name
       pid = fork do
         $PROGRAM_NAME = name
-        Sponges::WorkerBuilder.new(@worker, @method, *@args, &@block).start
+        Sponges::WorkerBuilder.new(@block).start
       end
       Sponges.logger.info "Supervisor create a child with #{pid} pid."
       @pids.sadd pid

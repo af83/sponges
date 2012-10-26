@@ -19,10 +19,9 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.worker        = Worker.new
-  config.worker_name   = "bob"
-  config.worker_method = :run
   config.redis         = Redis.new
 end
 
-Sponges.start
+Sponges.start "bob" do
+  Worker.new.run
+end

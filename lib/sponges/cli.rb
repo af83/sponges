@@ -7,29 +7,24 @@ module Sponges
     option :size,       type: :numeric
     desc "Start workers"
     def start(options = {})
-      worker = Sponges::Runner.new(Sponges::Configuration.worker_name, options)
-      if Sponges::Configuration.worker_args
-        worker.work(Sponges::Configuration.worker, Sponges::Configuration.worker_method,
-             Sponges::Configuration.worker_args)
-      else
-        worker.work(Sponges::Configuration.worker, Sponges::Configuration.worker_method)
-      end
+      Sponges::Runner.new(Sponges::Configuration.worker_name, options,
+                          Sponges::Configuration.worker
+                         ).start
     end
 
     option :gracefully, type: :boolean
     desc "Stop workers"
     def stop(options = {})
-      Sponges::Commander.new(Sponges::Configuration.worker_name, options).
-        stop
+      Sponges::Commander.new(Sponges::Configuration.worker_name, options).stop
     end
 
     option :daemonize,  type: :boolean
     option :size,       type: :numeric
     option :gracefully, type: :boolean
     desc "Restart workers"
-    def restart(options = {})
+    def restart(options = {}, &block)
       stop(options)
-      start(options)
+      start(options, block)
     end
 
     desc "Increment workers pool size"

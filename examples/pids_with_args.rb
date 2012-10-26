@@ -18,11 +18,6 @@ class Worker
   end
 end
 
-Sponges.configure do |config|
-  config.worker        = Worker.new
-  config.worker_name   = "bob"
-  config.worker_method = :run
-  config.worker_args   = {name: "bob"}
+Sponges.start "bob" do
+  Worker.new.run "bob"
 end
-
-Sponges.start

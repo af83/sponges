@@ -6,7 +6,9 @@ RSpec.configure do |config|
   config.before(:all) do
     kill_supervisor
     fork {
-      Sponges.start(['start'])
+      Sponges.start Worker.name, ['start'] do
+        Worker.new.run
+      end
     }
     sleep 1
   end
@@ -20,12 +22,6 @@ class Worker
     sleep 1
     run
   end
-end
-
-Sponges.configure do |config|
-  config.worker        = Worker.new
-  config.worker_name   = Worker.name
-  config.worker_method = :run
 end
 
 def supervisor_name

@@ -56,15 +56,14 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.worker        = Worker.new           # mandatory
-  config.worker_name   = "bob"                # mandatory
-  config.worker_method = :run                 # mandatory
-  config.worker_args   = {first: true}        # mandatory
   config.logger        = MyCustomLogger.new   # optionnal
   config.redis         = Redis.new            # optionnal
 end
 
-Sponges.start
+# Register a pool named "worker_name".
+Sponges.start "worker_name" do
+  Worker.new({some: args}).run
+end
 ```
 See the help message :
 ``` bash

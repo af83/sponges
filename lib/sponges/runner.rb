@@ -8,6 +8,10 @@ module Sponges
       @name, @block = name, block
       @options = default_options.merge options
       @redis = Nest.new('sponges', Configuration.redis || Redis.new)
+      if running?
+        Sponges.logger.error "Runner #{@name} already started."
+        exit
+      end
       @redis[:hostnames].sadd Socket.gethostname
     end
 
@@ -24,6 +28,20 @@ module Sponges
     end
 
     private
+
+    def running?
+      if pid = @redis[Socket.gethostname][:worker][@name][:supervisor].get
+        begin
+          Process.kill 0, pid.to_i
+          true
+        rescue Errno::ESRCH => e
+          @redis[Socket.gethostname][:worker][@name][:supervisor].del
+          false
+        end
+      else
+        false
+      end
+    end
 
     def trap_signals
       Sponges::SIGNALS.each do |signal|

@@ -36,7 +36,7 @@ module Sponges
       name = children_name
       pid = fork do
         $PROGRAM_NAME = name
-        Sponges::WorkerBuilder.new(@block).start
+        @block.call
       end
       Sponges.logger.info "Supervisor create a child with #{pid} pid."
       @pids.sadd pid

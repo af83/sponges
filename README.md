@@ -117,10 +117,6 @@ Show a list of workers and their children.
 ruby example.rb list
 ```
 
-## TODO
-
-* Check on OSX.
-
 ## Acknowledgements
 
 sponges would not have been the same without [Jesse

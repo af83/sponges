@@ -14,5 +14,5 @@ Sponges.configure do |config|
 end
 
 Sponges.start "redmon" do
-  Redmon.run {:redis_url => redis_server, :app => false, :worker => true}
+  Redmon.run({:redis_url => redis_server, :app => false, :worker => true})
 end

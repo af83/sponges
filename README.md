@@ -11,10 +11,6 @@ Internally, `sponges` strongly relies on Unix signals.
 
 [Yes.](http://news.ycombinator.com/item?id=3067434)
 
-## Production ready ?
-
-Not yet, but soon. Beware, api can change in 0.0.x.
-
 ## Installation
 
 Ruby 1.9.2 (or superior) and Redis are required.

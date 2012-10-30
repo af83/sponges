@@ -5,6 +5,15 @@ stressed and eager to work. `sponges` helps you build this army of sponges, to
 control them, and, well, to kill them gracefully. Making them stressed and eager
 to work is your job. :)
 
+Basically, sponges is a ruby supervisor that forks processes and controls their
+execution and termination. For example the following will start a supervision 
+daemon and 8 processes of  "a_worker". 
+```bash
+ruby a_worker.rb start -d -s 8
+```
+If you kill the supervisor it will cleanly
+terminate the child processes.
+
 Internally, `sponges` strongly relies on Unix signals.
 
 ## Is it any good?

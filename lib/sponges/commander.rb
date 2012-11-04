@@ -11,29 +11,17 @@ module Sponges
 
     def kill
       Sponges.logger.info "Runner #{@name} kill message received."
-      if pid = @redis[:worker][@name][:supervisor].get
-        kill_process(:KILL, pid)
-      else
-        Sponges.logger.info "No supervisor found."
-      end
+      stop :KILL
       Array(@redis[:worker][@name][:pids].smembers).each do|pid|
         kill_process(:KILL, pid, "Worker")
       end
     end
 
-    def stop
+    def stop(signal = nil)
+      signal ||= gracefully? ? :HUP : :QUIT
       Sponges.logger.info "Runner #{@name} stop message received."
       if pid = @redis[:worker][@name][:supervisor].get
-        begin
-          Process.kill gracefully? ? :HUP : :QUIT, pid.to_i
-          while alive?(pid.to_i) do
-            Sponges.logger.info "Supervisor #{pid} still alive"
-            sleep 0.5
-          end
-          Sponges.logger.info "Supervisor #{pid} has stopped."
-        rescue Errno::ESRCH => e
-          Sponges.logger.error e
-        end
+        kill_process(signal, pid)
       else
         Sponges.logger.info "No supervisor found."
       end

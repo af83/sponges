@@ -100,6 +100,11 @@ Stop workers with a `QUIT` signal :
 ruby example.rb stop
 ```
 
+Stop workers with a `KILL` signal :
+``` bash
+ruby example.rb kill
+```
+
 Stop workers with a `HUP` signal :
 ``` bash
 ruby example.rb stop -g

@@ -18,6 +18,11 @@ module Sponges
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).stop
     end
 
+    desc "Kill workers"
+    def kill(options = {})
+      Sponges::Commander.new(Sponges::Configuration.worker_name, options).kill
+    end
+
     option :daemonize,  type: :boolean
     option :size,       type: :numeric
     option :gracefully, type: :boolean

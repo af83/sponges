@@ -9,6 +9,8 @@ module Sponges
       @redis = Nest.new('sponges', Configuration.redis || Redis.new)[Socket.gethostname]
     end
 
+    # Kills the supervisor, and then all workers.
+    #
     def kill
       Sponges.logger.info "Runner #{@name} kill message received."
       stop :KILL
@@ -17,6 +19,8 @@ module Sponges
       end
     end
 
+    # Stops supervisor, signal depends on options given by Boson.
+    #
     def stop(signal = nil)
       signal ||= gracefully? ? :HUP : :QUIT
       Sponges.logger.info "Runner #{@name} stop message received."
@@ -27,6 +31,8 @@ module Sponges
       end
     end
 
+    # Increment workers's pool by one.
+    #
     def increment
       Sponges.logger.info "Runner #{@name} increment message received."
       if pid = @redis[:worker][@name][:supervisor].get
@@ -40,6 +46,8 @@ module Sponges
       end
     end
 
+    # Decrement workers's pool by one.
+    #
     def decrement
       Sponges.logger.info "Runner #{@name} decrement message received."
       if pid = @redis[:worker][@name][:supervisor].get

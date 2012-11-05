@@ -27,9 +27,9 @@ module Sponges
     option :size,       type: :numeric
     option :gracefully, type: :boolean
     desc "Restart workers"
-    def restart(options = {}, &block)
+    def restart(options = {})
       stop(options)
-      start(options, block)
+      start(options)
     end
 
     desc "Increment workers pool size"

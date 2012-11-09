@@ -14,11 +14,11 @@ describe Sponges do
 
     it 'can increase and decrease childs size' do
       Process.kill :TTIN, find_supervisor.pid
-      sleep 1
+      sleep 1.2
       find_childs.size.should eq(Machine::Info::Cpu.cores_size + 1)
 
       Process.kill :TTOU, find_supervisor.pid
-      sleep 1
+      sleep 1.2
       find_childs.size.should eq(Machine::Info::Cpu.cores_size)
     end
   end

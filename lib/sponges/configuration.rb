@@ -4,7 +4,7 @@ module Sponges
   #
   class Configuration
     class << self
-      ACCESSOR = [:worker_name, :worker, :logger, :redis]
+      ACCESSOR = [:worker_name, :worker, :logger, :redis, :options]
       attr_accessor *ACCESSOR
 
       def configure

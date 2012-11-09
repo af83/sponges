@@ -6,8 +6,8 @@ control them, and, well, to kill them gracefully. Making them stressed and eager
 to work is your job. :)
 
 Basically, sponges is a ruby supervisor that forks processes and controls their
-execution and termination. For example the following will start a supervision 
-daemon and 8 processes of  "a_worker". 
+execution and termination. For example the following will start a supervision
+daemon and 8 processes of  "a_worker".
 ```bash
 ruby a_worker.rb start -d -s 8
 ```
@@ -66,7 +66,9 @@ Sponges.configure do |config|
 end
 
 # Register a pool named "worker_name".
-Sponges.start "worker_name" do
+# Options are optionnal. Consider it as a default, options given by command have
+# the precedence.
+Sponges.start "worker_name", {size: 3, daemonize: true} do
   Worker.new({some: args}).run
 end
 ```

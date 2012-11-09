@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
-require 'sponges'
+require_relative '../lib/sponges'
 
 class Worker
   def run

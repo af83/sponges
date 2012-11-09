@@ -4,32 +4,24 @@ require 'sys/proctable'
 
 RSpec.configure do |config|
   config.before(:all) do
-    kill_supervisor
-    fork {
-      Sponges.start Worker.name, ['start'] do
-        Worker.new.run
-      end
-    }
+    system('spec/worker_runner.rb start -d')
     sleep 1
+  end
+  config.after(:all) do
+    kill_supervisor
   end
 end
 
-class Worker
-  def self.name
-    '_sponges_test'
-  end
-  def run
-    sleep 1
-    run
-  end
+def worker_name
+  '_sponges_test'
 end
 
 def supervisor_name
-  "#{Worker.name}_supervisor"
+  "#{worker_name}_supervisor"
 end
 
 def childs_name
-  "#{Worker.name}_child"
+  "#{worker_name}_child"
 end
 
 def find_supervisor

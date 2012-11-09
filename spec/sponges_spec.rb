@@ -2,7 +2,6 @@
 
 require 'spec_helper'
 
-
 describe Sponges do
   context 'start' do
     it 'can be started' do
@@ -32,5 +31,13 @@ describe Sponges do
       find_childs.size.should eq(Machine::Info::Cpu.cores_size)
     end
   end
-end
 
+  context 'restart' do
+    it 'can be restarted' do
+      old_pid = find_supervisor.pid
+      system('spec/worker_runner.rb restart -d')
+      sleep 1
+      old_pid.should_not eq(find_supervisor.pid)
+    end
+  end
+end

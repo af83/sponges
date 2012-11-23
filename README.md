@@ -65,6 +65,9 @@ Sponges.configure do |config|
   config.redis         = Redis.new            # optionnal
   config.size          = 3
   config.daemonize     = true
+  config.after_fork do
+    puts "Execute some code here"
+  end
 end
 
 # Register a pool named "worker_name".

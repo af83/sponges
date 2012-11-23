@@ -36,6 +36,7 @@ module Sponges
       name = children_name
       pid = fork do
         $PROGRAM_NAME = name
+        Sponges::Hook.after_fork
         @block.call
       end
       Sponges.logger.info "Supervisor create a child with #{pid} pid."

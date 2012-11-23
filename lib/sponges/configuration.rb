@@ -5,7 +5,7 @@ module Sponges
   class Configuration
     class << self
       ACCESSOR = [:worker_name, :worker, :logger, :redis, :size,
-        :daemonize
+        :daemonize, :after_fork
       ]
       attr_accessor *ACCESSOR
 
@@ -18,6 +18,20 @@ module Sponges
           conf[method] = send(method)
           conf
         end
+      end
+
+      def after_fork(&block)
+        Hook._after_fork = block
+      end
+    end
+  end
+
+  class Hook
+    class << self
+      attr_accessor :_after_fork
+
+      def after_fork
+        _after_fork.call if _after_fork.respond_to?(:call)
       end
     end
   end

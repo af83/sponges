@@ -23,6 +23,9 @@ Sponges.configure do |config|
   config.after_fork do
     puts "forked"
   end
+  config.on_chld do
+    puts "Child exit"
+  end
 end
 
 Sponges.start "bob" do

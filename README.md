@@ -66,8 +66,10 @@ Sponges.configure do |config|
   config.size          = 3
   config.daemonize     = true
   config.after_fork do
-    puts "Execute some code here"
+    puts "Execute some when a child process is created"
   end
+  config.on_chld do
+    puts "Execute code when a child process is killed"
 end
 
 # Register a pool named "worker_name".

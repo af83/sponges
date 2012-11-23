@@ -72,6 +72,7 @@ module Sponges
             if dead
               Sponges.logger.warn "Child #{dead} died. Restarting a new one..."
               @pids.srem dead
+              Sponges::Hook.on_chld
               fork_children
             end
           rescue Errno::ECHILD => e

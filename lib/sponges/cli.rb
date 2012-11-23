@@ -10,7 +10,7 @@ module Sponges
       options = {
         size: Sponges::Configuration.size,
         daemonize: Sponges::Configuration.daemonize
-      }.merge(options)
+      }.reject{|k, v| v.nil?}.merge(options)
       Sponges::Runner.new(Sponges::Configuration.worker_name, options,
                           Sponges::Configuration.worker
                          ).start

@@ -20,9 +20,11 @@ end
 
 Sponges.configure do |config|
   config.redis         = Redis.new
+  config.size          = 10
+  config.daemonize     = true
 end
 
-Sponges.start "pids_with_default", {size: 10, daemonize: true} do
+Sponges.start "pids_with_default" do
   Worker.new.run
 end
 

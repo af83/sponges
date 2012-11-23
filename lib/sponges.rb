@@ -21,7 +21,6 @@ module Sponges
   def start(worker_name, options = {}, argv = ARGV, &block)
     Sponges::Configuration.worker_name = worker_name
     Sponges::Configuration.worker = block
-    Sponges::Configuration.options = options
     Sponges::Cli.start(argv)
   end
   module_function :start

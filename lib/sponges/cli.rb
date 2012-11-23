@@ -7,7 +7,10 @@ module Sponges
     option :size,       type: :numeric
     desc "Start workers"
     def start(options = {})
-      options = Sponges::Configuration.options.merge(options)
+      options = {
+        size: Sponges::Configuration.size,
+        daemonize: Sponges::Configuration.daemonize
+      }.merge(options)
       Sponges::Runner.new(Sponges::Configuration.worker_name, options,
                           Sponges::Configuration.worker
                          ).start

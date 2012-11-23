@@ -63,12 +63,14 @@ end
 Sponges.configure do |config|
   config.logger        = MyCustomLogger.new   # optionnal
   config.redis         = Redis.new            # optionnal
+  config.size          = 3
+  config.daemonize     = true
 end
 
 # Register a pool named "worker_name".
 # Options are optionnal. Consider it as a default, options given by command have
 # the precedence.
-Sponges.start "worker_name", {size: 3, daemonize: true} do
+Sponges.start "worker_name" do
   Worker.new({some: args}).run
 end
 ```

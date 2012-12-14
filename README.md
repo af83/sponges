@@ -98,9 +98,10 @@ Start 8 instances of the worker and daemonize them:
 ruby example.rb start -d -s 8 # By default, size equals cpu core's size.
 ```
 
-Retart gracefully 4 instances of the worker and daemonize them:
+Retart gracefully 4 instances of the worker, with a timeout of 3 seconds and
+daemonize them:
 ``` bash
-ruby example.rb restart -g -d -s 4
+ruby example.rb restart -g -d -s 4 -t 3
 ```
 
 Stop workers with a `QUIT` signal :
@@ -115,10 +116,12 @@ ruby example.rb kill
 
 Stop workers with a `HUP` signal :
 ``` bash
-ruby example.rb stop -g
+ruby example.rb stop -g -t 5
 ```
 In this case, you will have to trap the `HUP` signal, and handle a clean stop
-from each workers. The point is to wait for a task to be done before quitting.
+from each workers. The point is to wait for a task to be done before quitting. A
+timeout can be specify with the `-t` option. When this timeout is hited, the
+process is killed.
 
 Increment worker's pool size :
 ``` bash

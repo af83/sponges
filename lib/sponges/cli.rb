@@ -17,8 +17,13 @@ module Sponges
     end
 
     option :gracefully, type: :boolean
+    option :timeout,    type: :numeric
     desc "Stop workers"
     def stop(options = {})
+      options = {
+        timeout:    Sponges::Configuration.timeout,
+        gracefully: Sponges::Configuration.gracefully
+      }.reject{|k, v| v.nil?}.merge(options)
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).stop
     end
 
@@ -30,6 +35,7 @@ module Sponges
     option :daemonize,  type: :boolean
     option :size,       type: :numeric
     option :gracefully, type: :boolean
+    option :timeout,    type: :numeric
     desc "Restart workers"
     def restart(options = {})
       stop(options)

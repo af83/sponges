@@ -5,7 +5,7 @@ module Sponges
   class Configuration
     class << self
       ACCESSOR = [:worker_name, :worker, :logger, :redis, :size,
-        :daemonize, :after_fork
+        :daemonize, :after_fork, :timeout, :gracefully
       ]
       attr_accessor *ACCESSOR
 

@@ -1,4 +1,6 @@
 # encoding: utf-8
+require 'timeout'
+
 module Sponges
   # This class concern is to send messages to supervisor. It's used to send
   # messages like 'stop' or 'restart'
@@ -25,7 +27,17 @@ module Sponges
       signal ||= gracefully? ? :HUP : :QUIT
       Sponges.logger.info "Runner #{@name} stop message received."
       if pid = @redis[:worker][@name][:supervisor].get
-        kill_process(signal, pid)
+        if @options[:timeout]
+          begin
+            Timeout::timeout(@options[:timeout]) do
+              kill_process(signal, pid)
+            end
+          rescue Timeout::Error
+            kill
+          end
+        else
+          kill_process(signal, pid)
+        end
       else
         Sponges.logger.info "No supervisor found."
       end

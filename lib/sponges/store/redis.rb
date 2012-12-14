@@ -34,7 +34,7 @@ module Sponges
       end
 
       def register_hostname(hostname)
-        redis[:workers].sadd hostname
+        redis[:hostnames].sadd hostname
       end
 
       def register(supervisor_pid)

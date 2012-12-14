@@ -56,6 +56,10 @@ module Sponges
 
     desc "Show running processes"
     def list
+      if Sponges::Configuration.store == :memory
+        puts "Command not available with the memory store"
+        exit
+      end
       redis = Nest.new('sponges')
       puts %q{
  ___ _ __   ___  _ __   __ _  ___  ___

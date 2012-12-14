@@ -20,6 +20,7 @@ end
 
 Sponges.configure do |config|
   config.redis         = Redis.new
+  config.store         = :redis
 end
 
 Sponges.start "bob" do

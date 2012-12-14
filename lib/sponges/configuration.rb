@@ -5,7 +5,7 @@ module Sponges
   class Configuration
     class << self
       ACCESSOR = [:worker_name, :worker, :logger, :redis, :size,
-        :daemonize, :after_fork, :timeout, :gracefully
+        :daemonize, :after_fork, :timeout, :gracefully, :store
       ]
       attr_accessor *ACCESSOR
 
@@ -26,6 +26,14 @@ module Sponges
 
       def on_chld(&block)
         Hook._on_chld = block
+      end
+
+      def store
+        @store || :memory
+      end
+
+      def redis
+        @redis ||= Redis.new
       end
     end
   end

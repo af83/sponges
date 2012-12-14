@@ -6,9 +6,11 @@ module Sponges
   # messages like 'stop' or 'restart'
   #
   class Commander
+    attr_reader :store
+
     def initialize(name, options = {})
       @name, @options = name, options
-      @redis = Nest.new('sponges', Configuration.redis || Redis.new)[Socket.gethostname]
+      @store = Sponges::Store.new(@name)
     end
 
     # Kills the supervisor, and then all workers.
@@ -16,8 +18,14 @@ module Sponges
     def kill
       Sponges.logger.info "Runner #{@name} kill message received."
       stop :KILL
-      Array(@redis[:worker][@name][:pids].smembers).each do|pid|
-        kill_process(:KILL, pid, "Worker")
+      children_pids.each do|pid|
+        begin
+          kill_process(:KILL, pid, "Worker")
+        rescue Errno::ESRCH => e
+          # Don't panic
+        ensure
+          store.delete_children pid
+        end
       end
     end
 
@@ -26,7 +34,7 @@ module Sponges
     def stop(signal = nil)
       signal ||= gracefully? ? :HUP : :QUIT
       Sponges.logger.info "Runner #{@name} stop message received."
-      if pid = @redis[:worker][@name][:supervisor].get
+      if pid = supervisor_pid
         if @options[:timeout]
           begin
             Timeout::timeout(@options[:timeout]) do
@@ -47,9 +55,9 @@ module Sponges
     #
     def increment
       Sponges.logger.info "Runner #{@name} increment message received."
-      if pid = @redis[:worker][@name][:supervisor].get
+      if pid = supervisor_pid
         begin
-          Process.kill :TTIN, pid.to_i
+          Process.kill :TTIN, supervisor.to_i
         rescue Errno::ESRCH => e
           Sponges.logger.error e
         end
@@ -62,9 +70,9 @@ module Sponges
     #
     def decrement
       Sponges.logger.info "Runner #{@name} decrement message received."
-      if pid = @redis[:worker][@name][:supervisor].get
+      if supervisor_pid
         begin
-          Process.kill :TTOU, pid.to_i
+          Process.kill :TTOU, supervisor_pid.to_i
         rescue Errno::ESRCH => e
           Sponges.logger.error e
         end
@@ -74,6 +82,14 @@ module Sponges
     end
 
     private
+
+    def supervisor_pid
+      @store.supervisor_pid
+    end
+
+    def children_pids
+      @store.children_pids
+    end
 
     def kill_process(signal, pid, type = "Supervisor")
       pid = pid.to_i
@@ -85,7 +101,7 @@ module Sponges
         end
         Sponges.logger.info "#{type} #{pid} has stopped."
       rescue Errno::ESRCH => e
-        Sponges.logger.error e
+        # Don't panic
       end
     end
 

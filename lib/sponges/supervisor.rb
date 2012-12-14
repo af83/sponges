@@ -1,15 +1,17 @@
 # encoding: utf-8
 module Sponges
   class Supervisor
-    def initialize(name, options, block)
-      @name, @options, @block = name, options, block
-      set_up_redis
-      @pids = @redis[:worker][name][:pids]
+    attr_reader :store, :name, :options
+
+    def initialize(name, options, store, block)
+      @name, @options, @store, @block = name, options, store, block
+      store.on_fork
+      store.register Process.pid
       @children_seen = 0
     end
 
     def start
-      @options[:size].times do
+      options[:size].times do
         fork_children
       end
       trap_signals
@@ -22,16 +24,6 @@ module Sponges
 
     private
 
-    def set_up_redis
-      if Configuration.redis
-        redis_client = Configuration.redis
-        redis_client.client.reconnect
-      end
-      @redis = Nest.new('sponges', redis_client || Redis.new)[Socket.gethostname]
-      @redis[:workers].sadd @name
-      @redis[:worker][@name][:supervisor].set Process.pid
-    end
-
     def fork_children
       name = children_name
       pid = fork do
@@ -40,11 +32,11 @@ module Sponges
         @block.call
       end
       Sponges.logger.info "Supervisor create a child with #{pid} pid."
-      @pids.sadd pid
+      store.add_children pid
     end
 
     def children_name
-      "#{@name}_child_#{@children_seen +=1}"
+      "#{name}_child_#{@children_seen +=1}"
     end
 
     def trap_signals
@@ -59,19 +51,19 @@ module Sponges
       end
       trap(:TTOU) do
         Sponges.logger.warn "Supervisor decrement child's pool by one."
-        if pids.first
-          kill_one(pids.first, :HUP)
+        if store.children_pids.first
+          kill_one(store.children_pids.first, :HUP)
         else
           Sponges.logger.warn "No more child to kill."
         end
       end
       trap(:CHLD) do
-        pids.each do |pid|
+        store.children_pids.each do |pid|
           begin
             dead = Process.waitpid(pid.to_i, Process::WNOHANG)
             if dead
               Sponges.logger.warn "Child #{dead} died. Restarting a new one..."
-              @pids.srem dead
+                store.delete_children dead
               Sponges::Hook.on_chld
               fork_children
             end
@@ -88,30 +80,26 @@ module Sponges
       Process.waitall
       Sponges.logger.info "Children shutdown complete."
       Sponges.logger.info "Supervisor shutdown. Exiting..."
-      pid = @redis[:worker][@name][:supervisor]
-      @redis[:worker][@name][:supervisor].del
-      @redis[:workers].srem @name
+      pid = store.supervisor_pid
+      store.clear(name)
       Process.kill :USR1, pid.to_i
     end
 
     def kill_them_all(signal)
-      pids.each do |pid|
+      store.children_pids.each do |pid|
         kill_one(pid, signal)
       end
     end
 
     def kill_one(pid, signal)
       begin
-        @pids.srem pid
         Process.kill signal, pid.to_i
+        Process.waitpid pid.to_i
+        store.delete_children pid
         Sponges.logger.info "Child #{pid} receive a #{signal} signal."
       rescue Errno::ESRCH => e
         # Don't panic
       end
-    end
-
-    def pids
-      Array(@pids.smembers)
     end
   end
 end

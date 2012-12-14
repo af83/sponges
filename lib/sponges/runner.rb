@@ -4,15 +4,17 @@ module Sponges
   # watch over the supervisor.
   #
   class Runner
+    attr_reader :store
+
     def initialize(name, options = {}, block)
       @name, @block = name, block
       @options = default_options.merge options
-      @redis = Nest.new('sponges', Configuration.redis || Redis.new)
-      if running?
+      @store = Sponges::Store.new(@name)
+      if store.running?
         Sponges.logger.error "Runner #{@name} already started."
         exit
       end
-      @redis[:hostnames].sadd Socket.gethostname
+      store.register_hostname Socket.gethostname
     end
 
     def start
@@ -28,20 +30,6 @@ module Sponges
     end
 
     private
-
-    def running?
-      if pid = @redis[Socket.gethostname][:worker][@name][:supervisor].get
-        begin
-          Process.kill 0, pid.to_i
-          true
-        rescue Errno::ESRCH => e
-          @redis[Socket.gethostname][:worker][@name][:supervisor].del
-          false
-        end
-      else
-        false
-      end
-    end
 
     def trap_signals
       Sponges::SIGNALS.each do |signal|
@@ -63,7 +51,7 @@ module Sponges
     def fork_supervisor
       fork do
         $PROGRAM_NAME = "#{@name}_supervisor"
-        Supervisor.new(@name, @options, @block).start
+        Supervisor.new(@name, @options, store, @block).start
       end
     end
 

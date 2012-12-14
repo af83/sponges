@@ -138,6 +138,24 @@ Show a list of workers and their children.
 ruby example.rb list
 ```
 
+## Stores
+
+sponges can store pids in memory or in redis. Memory is the default store. The
+`list` command is not available with the memory store.
+
+To select the redis store, you need to add `nest` to your application's
+Gemfile, and do the following.
+
+``` ruby
+gem "sponges"
+```
+
+``` ruby
+Sponges.configure do |config|
+  config.store         = :redis
+end
+```
+
 ## Acknowledgements
 
 sponges would not have been the same without [Jesse

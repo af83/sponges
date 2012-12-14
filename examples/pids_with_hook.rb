@@ -1,5 +1,6 @@
 # encoding: utf-8
 require_relative '../lib/sponges'
+require 'nest'
 
 class Worker
   def run

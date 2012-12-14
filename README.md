@@ -22,7 +22,7 @@ Internally, `sponges` strongly relies on Unix signals.
 
 ## Installation
 
-Ruby 1.9.2 (or superior) and Redis are required.
+Ruby 1.9.2 (or superior).
 
 Install it with rubygems:
 

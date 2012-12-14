@@ -2,6 +2,7 @@
 # encoding: UTF-8
 require 'sponges'
 require 'redmon'
+require 'nest'
 require 'uri'
 
 redis_server           = ENV['REDIS_SERVER'] || 'redis://localhost:6379'

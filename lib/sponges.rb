@@ -2,7 +2,6 @@
 require 'boson/runner'
 require 'socket'
 require 'logger'
-require 'nest'
 require 'machine'
 require_relative 'sponges/configuration'
 require_relative 'sponges/supervisor'

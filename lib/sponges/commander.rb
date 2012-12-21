@@ -57,7 +57,7 @@ module Sponges
       Sponges.logger.info "Runner #{@name} increment message received."
       if pid = supervisor_pid
         begin
-          Process.kill :TTIN, supervisor.to_i
+          Process.kill :TTIN, supervisor_pid.to_i
         rescue Errno::ESRCH => e
           Sponges.logger.error e
         end

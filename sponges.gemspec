@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version       = Sponges::VERSION
   s.authors       = ["chatgris"]
   s.email         = ["jboyer@af83.com"]
-  s.homepage      = "https://github.com/AF83/sponges"
+  s.homepage      = "http://af83.github.com/sponges"
   s.summary       = "Turn any ruby object to a daemon controlling an army of sponges."
   s.description   = "When I build workers, I want them to be like an army of spongebobs, always stressed and eager to work. sponges helps you build this army of sponges, to control them, and, well, to kill them gracefully. Making them stressed and eager to work is your job. :)"
   s.files         = `git ls-files lib LICENSE README.md`.split("\n")

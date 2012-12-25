@@ -53,6 +53,7 @@ module Sponges
       def clear(name)
         hostname_store[:worker][name][:supervisor].del
         hostname_store[:workers].srem name
+        hostname_store[:worker][name][:pids].del
       end
 
       def on_fork

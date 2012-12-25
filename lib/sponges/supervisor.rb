@@ -53,6 +53,7 @@ module Sponges
         Sponges.logger.warn "Supervisor decrement child's pool by one."
         if store.children_pids.first
           kill_one(store.children_pids.first, :HUP)
+          store.delete_children(children_pids.first)
         else
           Sponges.logger.warn "No more child to kill."
         end
@@ -87,15 +88,14 @@ module Sponges
 
     def kill_them_all(signal)
       store.children_pids.each do |pid|
-        kill_one(pid, signal)
+        kill_one(pid.to_i, signal)
       end
     end
 
     def kill_one(pid, signal)
       begin
-        Process.kill signal, pid.to_i
-        Process.waitpid pid.to_i
-        store.delete_children pid
+        Process.kill signal, pid
+        Process.waitpid pid
         Sponges.logger.info "Child #{pid} receive a #{signal} signal."
       rescue Errno::ESRCH => e
         # Don't panic

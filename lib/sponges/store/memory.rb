@@ -40,7 +40,8 @@ module Sponges
       def on_fork
       end
 
-      def clear
+      def clear(name)
+        pids.clear
       end
 
       private

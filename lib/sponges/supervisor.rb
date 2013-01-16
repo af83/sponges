@@ -20,6 +20,10 @@ module Sponges
       end
       Sponges.logger.info "Supervisor started, waiting for messages."
       sleep
+    rescue Exception => exception
+      Sponges.logger.error exception
+      kill_them_all(:INT)
+      raise exception
     end
 
     private

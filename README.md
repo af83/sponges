@@ -161,6 +161,23 @@ Sponges.configure do |config|
 end
 ```
 
+## Roadmap
+
+### Version 0.6
+
+ * Deprecation notice about Redis store removal
+
+
+### Version 0.7
+
+ * Inclusion of Http supervision
+
+
+### Version 1.0
+
+ * Removal of Redis store
+
+
 ## Acknowledgements
 
 sponges would not have been the same without [Jesse

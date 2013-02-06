@@ -1,5 +1,10 @@
 # sponges
 
+[![Code
+Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/AF83/sponges)
+[![Gem
+Version](https://fury-badge.herokuapp.com/rb/sponges.png)](http://badge.fury.io/rb/sponges)
+
 When I build workers, I want them to be like an army of spongebobs, always
 stressed and eager to work. `sponges` helps you build this army of sponges, to
 control them, and, well, to kill them gracefully. Making them stressed and eager

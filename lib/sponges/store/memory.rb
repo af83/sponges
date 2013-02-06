@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'forwardable'
-
 module Sponges
   class Store
     class Memory

@@ -3,7 +3,9 @@ require 'boson/runner'
 require 'socket'
 require 'logger'
 require 'machine'
+require 'forwardable'
 require_relative 'sponges/configuration'
+require_relative 'sponges/handler'
 require_relative 'sponges/supervisor'
 require_relative 'sponges/runner'
 require_relative 'sponges/commander'
@@ -13,7 +15,8 @@ require_relative 'sponges/store/memory'
 require_relative 'sponges/store/redis'
 
 module Sponges
-  SIGNALS = [:INT, :QUIT, :TERM]
+  STOP_SIGNALS = [:INT, :QUIT, :TERM]
+  SIGNALS = STOP_SIGNALS + [:HUP, :TTIN, :TTOU, :CHLD]
 
   def configure(&block)
     Sponges::Configuration.configure &block

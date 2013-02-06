@@ -106,12 +106,7 @@ module Sponges
     end
 
     def alive?(pid)
-      begin
-        Process.kill 0, pid
-        true
-      rescue Errno::ESRCH => e
-        false
-      end
+      !Sys::ProcTable.ps.find {|f| f.pid == pid }.nil?
     end
 
     def gracefully?

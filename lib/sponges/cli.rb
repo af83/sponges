@@ -39,6 +39,7 @@ module Sponges
     desc "Restart workers"
     def restart(options = {})
       stop(options)
+      sleep 1
       start(options)
     end
 

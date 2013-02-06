@@ -50,7 +50,6 @@ module Sponges
 
     def fork_supervisor
       fork do
-        $PROGRAM_NAME = "#{@name}_supervisor"
         Supervisor.new(@name, @options, store, @block).start
       end
     end

@@ -1,6 +1,5 @@
 # encoding: utf-8
 require_relative '../lib/sponges'
-require 'nest'
 
 class Worker
   def initialize
@@ -23,7 +22,6 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.redis         = Redis.new
   config.after_fork do
     puts "forked"
   end

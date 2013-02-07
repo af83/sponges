@@ -1,13 +1,15 @@
 # encoding: utf-8
 require_relative '../lib/sponges'
-require 'nest'
 
 class Worker
-  def run
+  def initialize
     trap(:HUP) {
       Sponges.logger.info "HUP signal trapped, clean stop."
       @hup = true
     }
+  end
+
+  def run
     Sponges.logger.info Process.pid
     if @hup
       Sponges.logger.info "HUP signal trapped, shutdown..."
@@ -20,7 +22,6 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.redis         = Redis.new
   config.size          = 10
   config.daemonize     = true
 end

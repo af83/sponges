@@ -61,6 +61,7 @@ module Sponges
         puts "Command not available with the memory store"
         exit
       end
+      Sponges.logger.warn "Redis's store will be removed in version 1.0!"
       redis = Nest.new('sponges')
       puts %q{
  ___ _ __   ___  _ __   __ _  ___  ___

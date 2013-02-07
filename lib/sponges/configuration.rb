@@ -33,7 +33,16 @@ module Sponges
       end
 
       def redis
-        @redis ||= Redis.new
+        @redis ||= Redis.new.tap { warn_redis }
+      end
+
+      def redis=(redis)
+        warn_redis
+        @redis = redis
+      end
+
+      def warn_redis
+        Sponges.logger.warn "Redis's store will be removed in version 1.0!"
       end
     end
   end

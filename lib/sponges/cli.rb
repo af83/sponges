@@ -32,7 +32,7 @@ module Sponges
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).kill
     end
 
-    option :daemonize,  type: :boolean
+    option :daemonize,  type: :boolean, default: true
     option :size,       type: :numeric
     option :gracefully, type: :boolean
     option :timeout,    type: :numeric

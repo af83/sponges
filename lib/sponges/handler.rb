@@ -2,10 +2,11 @@
 module Sponges
   class Handler
     extend Forwardable
-    attr_reader :supervisor
+    attr_reader :supervisor, :queue, :notifier
 
     def initialize(supervisor)
       @supervisor = supervisor
+      @queue, @notifier = IO.pipe
       at_exit do
         for_supervisor do
           Sponges.logger.info "Supervisor exits."
@@ -13,9 +14,17 @@ module Sponges
       end
     end
 
-    def call(signal)
-      if Sponges::SIGNALS.include?(signal = find_signal(signal))
-        send "handler_#{signal.to_s.downcase}", signal
+    def push(signal)
+      @notifier.puts(signal)
+    end
+
+    def call
+      Thread.new do
+        while signal = @queue.gets do
+          if Sponges::SIGNALS.include?(signal = find_signal(signal.chomp))
+            send "handler_#{signal.to_s.downcase}", signal
+          end
+        end
       end
     end
 
@@ -28,8 +37,8 @@ module Sponges
     end
 
     def find_signal(signal)
-      return signal if signal.is_a?(Symbol)
-      if signal = Signal.list.find {|k,v| v == signal }
+      return signal.to_sym if signal =~ /\D/
+      if signal = Signal.list.find {|k,v| v == signal.to_i }
         signal.first.to_sym
       end
     end
@@ -81,6 +90,7 @@ module Sponges
 
     alias handler_quit handler_int
     alias handler_term handler_int
+    alias handler_hup handler_int
 
     def kill_them_all(signal)
       store.children_pids.map do |pid|
@@ -100,7 +110,7 @@ module Sponges
 
     def shutdown
       Process.waitall
-      Sponges.logger.info "Children shutdown complete.", "Supervisor shutdown. Exiting..."
+      Sponges.logger.info "Children shutdown complete. Exiting..."
       store.clear(name)
       exit
     rescue Errno::ESRCH, Errno::ECHILD, SignalException => e

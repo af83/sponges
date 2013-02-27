@@ -13,15 +13,16 @@ module Sponges
     end
 
     def start
+      handler.call
       trap_signals
       options[:size].times do
-        handler.call :TTIN
+        handler.push :TTIN
       end
       Sponges.logger.info "Supervisor started, waiting for messages."
       sleep
     rescue Exception => exception
       Sponges.logger.error exception
-      handler.call :INT
+      handler.push :INT
       raise exception
     end
 
@@ -37,7 +38,7 @@ module Sponges
 
     def trap_signals
       Sponges::SIGNALS.each do |signal|
-        trap(signal) {|signal| handler.call signal }
+        trap(signal) {|signal| handler.push signal }
       end
     end
 

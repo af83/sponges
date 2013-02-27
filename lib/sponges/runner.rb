@@ -38,7 +38,6 @@ module Sponges
     end
 
     def kill_supervisor(signal)
-      Sponges.logger.info "Supervisor receive a #{signal} signal."
       Process.kill :USR1, @supervisor
     end
 

@@ -34,6 +34,7 @@ describe Sponges do
       old_pid = find_supervisor.pid
       press_sponges { system('spec/worker_runner.rb restart -d') }
       old_pid.should_not eq find_supervisor.pid
+      find_childs.size.should eq Machine::Info::Cpu.cores_size
     end
   end
 
@@ -60,7 +61,6 @@ describe Sponges do
 
     it "can be stopped, no matter the number of childs" do
       find_childs.size.should eq Machine::Info::Cpu.cores_size + 7
-      old_pid = find_supervisor.pid
       system('spec/worker_runner.rb stop')
       find_supervisor.should be_nil
     end

@@ -11,7 +11,7 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.logger        = Logger.new('/dev/null')
+  config.logger        = Logger.new('spec.log')
 end
 
 Sponges.start '_sponges_test' do

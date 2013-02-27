@@ -32,8 +32,8 @@ RSpec.configure do |config|
     Process.kill('HUP', s.pid) if s && s.pid
   end
 
-  def press_sponges(&block)
-    block.call if block_given?
+  def press_sponges
+    yield if block_given?
     sleep sleep_value
   end
 

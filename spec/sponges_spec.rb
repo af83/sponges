@@ -13,12 +13,10 @@ describe Sponges do
     end
 
     it 'can increase and decrease childs size' do
-      Process.kill :TTIN, find_supervisor.pid
-      sleep sleep_value
+      press_sponges { Process.kill :TTIN, find_supervisor.pid }
       find_childs.size.should eq Machine::Info::Cpu.cores_size + 1
 
-      Process.kill :TTOU, find_supervisor.pid
-      sleep sleep_value
+      press_sponges { Process.kill :TTOU, find_supervisor.pid }
       find_childs.size.should eq Machine::Info::Cpu.cores_size
     end
   end
@@ -26,8 +24,7 @@ describe Sponges do
   context 'stop' do
     it 'cannot kill a child' do
       childs = find_childs
-      Process.kill :INT, childs.first.pid
-      sleep sleep_value
+      press_sponges { Process.kill :INT, childs.first.pid }
       find_childs.size.should eq Machine::Info::Cpu.cores_size
     end
   end
@@ -35,16 +32,14 @@ describe Sponges do
   context 'restart' do
     it 'can be restarted' do
       old_pid = find_supervisor.pid
-      system('spec/worker_runner.rb restart -d')
-      sleep sleep_value
+      press_sponges { system('spec/worker_runner.rb restart -d') }
       old_pid.should_not eq find_supervisor.pid
     end
   end
 
   context 'increment' do
     before do
-      system('spec/worker_runner.rb increment')
-      sleep sleep_value
+      press_sponges { system('spec/worker_runner.rb increment') }
     end
 
     it "increments worker pool by one" do
@@ -53,15 +48,13 @@ describe Sponges do
 
     it 'can be restarted' do
       old_pid = find_supervisor.pid
-      system('spec/worker_runner.rb restart -d')
-      sleep sleep_value
+      press_sponges { system('spec/worker_runner.rb restart -d') }
       old_pid.should_not eq(find_supervisor.pid)
       find_childs.size.should eq Machine::Info::Cpu.cores_size
     end
 
     it "loves to be incremented" do
-      5.times { system('spec/worker_runner.rb increment') }
-      sleep sleep_value
+      press_sponges { 5.times { system('spec/worker_runner.rb increment') } }
       find_childs.size.should eq Machine::Info::Cpu.cores_size + 6
     end
 
@@ -75,10 +68,8 @@ describe Sponges do
 
   context 'decrement' do
     before do
-      system('spec/worker_runner.rb restart -d')
-      sleep sleep_value
-      system('spec/worker_runner.rb decrement')
-      sleep sleep_value
+      press_sponges { system('spec/worker_runner.rb restart -d') }
+      press_sponges { system('spec/worker_runner.rb decrement') }
     end
 
     it "increments worker pool by one" do

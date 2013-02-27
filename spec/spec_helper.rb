@@ -31,6 +31,12 @@ RSpec.configure do |config|
     s = find_supervisor
     Process.kill('HUP', s.pid) if s && s.pid
   end
+
+  def press_sponges(&block)
+    block.call if block_given?
+    sleep sleep_value
+  end
+
   config.before(:all) do
     system('spec/worker_runner.rb start -d')
     sleep 1

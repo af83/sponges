@@ -48,12 +48,15 @@ In a file called `example.rb`:
 require 'sponges'
 
 class Worker
-  def run
+  def initialize
     # Trap the HUP signal, set a boolean to true.
     trap(:HUP) {
       Sponges.logger.info "HUP signal trapped, clean stop."
       @hup = true
     }
+  end
+
+  def run
     Sponges.logger.info Process.pid
     if @hup # is true, we need to shutdown this worker
       Sponges.logger.info "HUP signal trapped, shutdown..."

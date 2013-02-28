@@ -106,7 +106,7 @@ ruby example.rb start -d -s 8 # By default, size equals cpu core's size.
 Retart gracefully 4 instances of the worker, with a timeout of 3 seconds and
 daemonize them:
 ``` bash
-ruby example.rb restart -g -d -s 4 -t 3
+ruby example.rb restart -g -s 4 -t 3
 ```
 
 Stop workers with a `QUIT` signal :
@@ -177,6 +177,7 @@ end
 
  * Removal of Redis store
 
+## [Changelog](CHANGELOG.md)
 
 ## Acknowledgements
 

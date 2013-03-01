@@ -166,11 +166,6 @@ end
 
 ## Roadmap
 
-### Version 0.6
-
- * Deprecation notice about Redis store removal
-
-
 ### Version 0.7
 
  * Inclusion of Http supervision

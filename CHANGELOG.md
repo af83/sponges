@@ -7,3 +7,8 @@
  a mutex in a trap. For now on, a pipe is use to comunicate signal to the
  handler. This has also enforce signal handler to be synchrone.
  * `restart` now daemonize process by default
+
+
+### Version 0.7
+
+ * Inclusion of Http supervision

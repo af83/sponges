@@ -168,28 +168,33 @@ example of response:
   "supervisor":{
     "pid":11537,
     "pctcpu":0.0,
-    "pctmem":0.22
+    "pctmem":0.22,
+    "created_at":"2013-03-05 15:21:04 +0100"
   },
   "children":[
     {
       "pid":11540,
       "pctcpu":0.0,
-      "pctmem":0.21
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
     },
     {
       "pid":11543,
       "pctcpu":0.0,
-      "pctmem":0.21
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
     },
     {
       "pid":11546,
       "pctcpu":0.0,
-      "pctmem":0.21
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
     },
     {
       "pid":11549,
       "pctcpu":0.0,
-      "pctmem":0.21
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
     }
   ]
 }
@@ -214,11 +219,6 @@ end
 ```
 
 ## Roadmap
-
-### Version 0.7
-
- * Inclusion of Http supervision
-
 
 ### Version 1.0
 

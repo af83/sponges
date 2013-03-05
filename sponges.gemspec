@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.add_dependency "boson"
-  s.add_dependency "machine"
+  s.add_dependency "machine" , '~>0.0.4'
   s.add_development_dependency 'rspec', '~>2.10.0'
 end

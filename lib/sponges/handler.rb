@@ -2,6 +2,7 @@
 module Sponges
   class Handler
     extend Forwardable
+
     attr_reader :supervisor, :queue, :notifier
 
     def initialize(supervisor)

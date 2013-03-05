@@ -3,7 +3,7 @@
 
 require_relative '../lib/sponges'
 
-class Worker
+class SleepRunner
   def run
     sleep 1
     run
@@ -11,9 +11,10 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.logger           = Logger.new('spec.log')
+  config.logger          = Logger.new('/dev/null')
 end
 
-Sponges.start '_sponges_test' do
-  Worker.new.run
+Sponges.start '_sponges_sleep_test' do
+  SleepRunner.new.run
 end
+

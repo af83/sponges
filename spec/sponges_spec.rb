@@ -15,7 +15,6 @@ describe Sponges do
     it 'can increase and decrease childs size' do
       press_sponges { Process.kill :TTIN, find_supervisor.pid }
       find_childs.size.should eq Machine::Info::Cpu.cores_size + 1
-
       press_sponges { Process.kill :TTOU, find_supervisor.pid }
       find_childs.size.should eq Machine::Info::Cpu.cores_size
     end
@@ -74,6 +73,34 @@ describe Sponges do
 
     it "increments worker pool by one" do
       find_childs.size.should eq(Machine::Info::Cpu.cores_size - 1)
+    end
+  end
+
+  context "http supervision" do
+    require "net/http"
+    require "uri"
+
+    before do
+      press_sponges { system('spec/worker_runner.rb restart -d') }
+    end
+
+    let(:uri) { URI.parse("http://localhost:5032") }
+    let(:response) { JSON.parse(Net::HTTP.get_response(uri).body) }
+
+    it "should expose the supervisor_pid" do
+      response["supervisor"]["pid"].should eq find_supervisor.pid
+    end
+
+    it "should expose the created_at" do
+      response["supervisor"]["created_at"].should_not be_nil
+    end
+
+    it "should return a collection of children" do
+      response["children"].size.should eq Machine::Info::Cpu.cores_size
+    end
+
+    it 'should exposes pids of children' do
+      response["children"].first["pid"].should be_an Integer
     end
   end
 end

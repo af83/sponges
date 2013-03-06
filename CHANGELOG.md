@@ -12,3 +12,7 @@
 ### Version 0.7
 
  * Inclusion of Http supervision
+
+### Version 1.0
+
+ * Removal of Redis store

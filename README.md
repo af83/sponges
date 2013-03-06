@@ -71,7 +71,6 @@ end
 
 Sponges.configure do |config|
   config.logger            = MyCustomLogger.new   # optionnal
-  config.redis             = Redis.new            # optionnal
   config.size              = 3                    # optionnal, default to cpu's size
   config.daemonize         = true                 # optionnal, default to false
   config.port              = 5032                 # optionnal, default to 5032
@@ -199,30 +198,6 @@ example of response:
   ]
 }
 ```
-
-## Stores
-
-sponges can store pids in memory or in redis. Memory is the default store. The
-`list` command is not available with the memory store.
-
-To select the redis store, you need to add `nest` to your application's
-Gemfile, and do the following.
-
-``` ruby
-gem "nest"
-```
-
-``` ruby
-Sponges.configure do |config|
-  config.store         = :redis
-end
-```
-
-## Roadmap
-
-### Version 1.0
-
- * Removal of Redis store
 
 ## [Changelog](CHANGELOG.md)
 

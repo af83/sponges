@@ -14,9 +14,8 @@ module Sponges
       end
 
       def configuration
-        ACCESSOR.inject({}) do |conf, method|
+        ACCESSOR.each_with_object({}) do |conf, method|
           conf[method] = send(method)
-          conf
         end
       end
 

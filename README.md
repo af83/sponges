@@ -13,6 +13,7 @@ to work is your job. :)
 Basically, sponges is a ruby supervisor that forks processes and controls their
 execution and termination. For example the following will start a supervision
 daemon and 8 processes of  "a_worker".
+
 ```bash
 ruby a_worker.rb start -d -s 8
 ```
@@ -69,10 +70,11 @@ class Worker
 end
 
 Sponges.configure do |config|
-  config.logger        = MyCustomLogger.new   # optionnal
-  config.redis         = Redis.new            # optionnal
-  config.size          = 3
-  config.daemonize     = true
+  config.logger            = MyCustomLogger.new   # optionnal
+  config.redis             = Redis.new            # optionnal
+  config.size              = 3                    # optionnal, default to cpu's size
+  config.daemonize         = true                 # optionnal, default to false
+  config.port              = 5032                 # optionnal, default to 5032
   config.after_fork do
     puts "Execute code when a child process is created"
   end
@@ -146,6 +148,58 @@ Show a list of workers and their children.
 ruby example.rb list
 ```
 
+## Http supervision
+
+sponges provides an http interface to supervise pool's activity, and to expose
+pids. Http supervision can be enable in configuration:
+
+
+``` ruby
+Sponges.configure do |config|
+  config.port            = 3333
+end
+```
+
+By default, sponges listens on port 5032, and responds in json. Here is an
+example of response:
+
+``` javascript
+{
+  "supervisor":{
+    "pid":11537,
+    "pctcpu":0.0,
+    "pctmem":0.22,
+    "created_at":"2013-03-05 15:21:04 +0100"
+  },
+  "children":[
+    {
+      "pid":11540,
+      "pctcpu":0.0,
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
+    },
+    {
+      "pid":11543,
+      "pctcpu":0.0,
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
+    },
+    {
+      "pid":11546,
+      "pctcpu":0.0,
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
+    },
+    {
+      "pid":11549,
+      "pctcpu":0.0,
+      "pctmem":0.21,
+      "created_at":"2013-03-05 15:21:04 +0100"
+    }
+  ]
+}
+```
+
 ## Stores
 
 sponges can store pids in memory or in redis. Memory is the default store. The
@@ -155,7 +209,7 @@ To select the redis store, you need to add `nest` to your application's
 Gemfile, and do the following.
 
 ``` ruby
-gem "sponges"
+gem "nest"
 ```
 
 ``` ruby
@@ -165,16 +219,6 @@ end
 ```
 
 ## Roadmap
-
-### Version 0.6
-
- * Deprecation notice about Redis store removal
-
-
-### Version 0.7
-
- * Inclusion of Http supervision
-
 
 ### Version 1.0
 

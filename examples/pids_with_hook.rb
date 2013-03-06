@@ -22,6 +22,8 @@ class Worker
 end
 
 Sponges.configure do |config|
+  config.port          = 3333
+
   config.after_fork do
     puts "forked"
   end

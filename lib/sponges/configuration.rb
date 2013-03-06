@@ -5,7 +5,7 @@ module Sponges
   class Configuration
     class << self
       ACCESSOR = [:worker_name, :worker, :logger, :size, :daemonize,
-                  :after_fork, :timeout, :gracefully, :store
+                  :after_fork, :timeout, :gracefully, :store, :port
       ]
       attr_accessor *ACCESSOR
 
@@ -28,8 +28,8 @@ module Sponges
         Hook._on_chld = block
       end
 
-      def store
-        @store || :memory
+      def port
+        @port || 5032
       end
 
     end

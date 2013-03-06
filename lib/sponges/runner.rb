@@ -14,7 +14,6 @@ module Sponges
         Sponges.logger.error "Runner #{@name} already started."
         exit
       end
-      store.register_hostname Socket.gethostname
     end
 
     def start

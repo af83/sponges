@@ -11,8 +11,6 @@ require_relative 'sponges/runner'
 require_relative 'sponges/commander'
 require_relative 'sponges/cli'
 require_relative 'sponges/store'
-require_relative 'sponges/store/memory'
-require_relative 'sponges/store/redis'
 
 module Sponges
   STOP_SIGNALS = [:INT, :QUIT, :TERM]

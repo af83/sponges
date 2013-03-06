@@ -6,7 +6,6 @@ module Sponges
     def initialize(name, options, store, block)
       @name, @options, @store, @block = name, options, store, block
       $PROGRAM_NAME = "#{@name}_supervisor"
-      store.on_fork
       store.register Process.pid
       @children_seen = 0
       @handler = Handler.new self

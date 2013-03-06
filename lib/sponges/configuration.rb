@@ -4,8 +4,8 @@ module Sponges
   #
   class Configuration
     class << self
-      ACCESSOR = [:worker_name, :worker, :logger, :redis, :size,
-        :daemonize, :after_fork, :timeout, :gracefully, :store
+      ACCESSOR = [:worker_name, :worker, :logger, :size, :daemonize,
+                  :after_fork, :timeout, :gracefully, :store
       ]
       attr_accessor *ACCESSOR
 
@@ -32,18 +32,6 @@ module Sponges
         @store || :memory
       end
 
-      def redis
-        @redis ||= Redis.new.tap { warn_redis }
-      end
-
-      def redis=(redis)
-        warn_redis
-        @redis = redis
-      end
-
-      def warn_redis
-        Sponges.logger.warn "Redis's store will be removed in version 1.0!"
-      end
     end
   end
 

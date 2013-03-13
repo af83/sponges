@@ -38,7 +38,7 @@ module Sponges
     end
 
     def kill_supervisor(signal)
-      Process.kill :USR1, @supervisor
+      Process.kill signal, @supervisor
     end
 
     def default_options

@@ -43,7 +43,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 do_start()
 {
 	su -l -c "source $PROFILE; $DAEMON start -d" $APP_USER
-    RETVAL="$?"
+	RETVAL="$?"
 	return "$RETVAL"
 }
 
@@ -53,10 +53,19 @@ do_start()
 do_stop()
 {
 	su -l -c "source $PROFILE; $DAEMON stop" $APP_USER
-    RETVAL="$?"
+	RETVAL="$?"
 	return "$RETVAL"
 }
 
+#
+# Function that restarts the daemon/service
+#
+do_restart()
+{
+	su -l -c "source $PROFILE; $DAEMON restart" $APP_USER
+	RETVAL="$?"
+	return "$RETVAL"
+}
 
 case "$1" in
   start)
@@ -76,7 +85,7 @@ case "$1" in
 	esac
 	;;
   status)
-	status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+	status_of_proc "${NAME}_supervisor" && exit 0 || exit $?
 	;;
   restart|force-reload)
 	#
@@ -84,21 +93,7 @@ case "$1" in
 	# 'force-reload' alias
 	#
 	log_daemon_msg "Restarting $DESC" "$NAME"
-	do_stop
-	case "$?" in
-	  0|1)
-		do_start
-		case "$?" in
-			0) log_end_msg 0 ;;
-			1) log_end_msg 1 ;; # Old process is still running
-			*) log_end_msg 1 ;; # Failed to start
-		esac
-		;;
-	  *)
-		# Failed to stop
-		log_end_msg 1
-		;;
-	esac
+	do_restart
 	;;
   *)
 	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2

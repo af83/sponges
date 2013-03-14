@@ -98,7 +98,6 @@ terminate the child processes.</p>
 
 <span class="no">Sponges</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">logger</span>            <span class="o">=</span> <span class="no">MyCustomLogger</span><span class="o">.</span><span class="n">new</span>   <span class="c1"># optionnal</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">redis</span>             <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span>            <span class="c1"># optionnal</span>
   <span class="n">config</span><span class="o">.</span><span class="n">size</span>              <span class="o">=</span> <span class="mi">3</span>                    <span class="c1"># optionnal, default to cpu's size</span>
   <span class="n">config</span><span class="o">.</span><span class="n">daemonize</span>         <span class="o">=</span> <span class="kp">true</span>                 <span class="c1"># optionnal, default to false</span>
   <span class="n">config</span><span class="o">.</span><span class="n">port</span>              <span class="o">=</span> <span class="mi">5032</span>                 <span class="c1"># optionnal, default to 5032</span>
@@ -112,7 +111,7 @@ terminate the child processes.</p>
 <span class="c1"># Register a pool named "worker_name".</span>
 <span class="c1">#</span>
 <span class="no">Sponges</span><span class="o">.</span><span class="n">start</span> <span class="s2">"worker_name"</span> <span class="k">do</span>
-  <span class="no">Worker</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="n">some</span><span class="p">:</span> <span class="n">args</span><span class="p">})</span><span class="o">.</span><span class="n">run</span>
+  <span class="no">Worker</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="ss">some</span><span class="p">:</span> <span class="n">args</span><span class="p">})</span><span class="o">.</span><span class="n">run</span>
 <span class="k">end</span>
 </pre></div>
 
@@ -226,44 +225,9 @@ example of response:</p>
 <span class="p">}</span>
 </pre></div>
 
-<h2>Stores</h2>
+<h2><a href="CHANGELOG.md">Changelog</a></h2>
 
-<p>sponges can store pids in memory or in redis. Memory is the default store. The
-<code>list</code> command is not available with the memory store.</p>
-
-<p>To select the redis store, you need to add <code>nest</code> to your application's
-Gemfile, and do the following.</p>
-
-<div class="highlight"><pre><span class="n">gem</span> <span class="s2">"nest"</span>
-</pre></div>
-
-<div class="highlight"><pre><span class="no">Sponges</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">store</span>         <span class="o">=</span> <span class="ss">:redis</span>
-<span class="k">end</span>
-</pre></div>
-
-<h2>Roadmap</h2>
-
-<h3>Version 1.0</h3>
-
-<ul>
-<li>Removal of Redis store</li>
-</ul><h2>Changelog</h2>
-
-<h3>Version 0.6</h3>
-
-<ul>
-<li>Deprecation notice about Redis store removal</li>
-<li>Ruby 2.0 compatibility: rework signal handler. 2.0 does not allow the use of
-a mutex in a trap. For now on, a pipe is use to comunicate signal to the
-handler. This has also enforce signal handler to be synchrone.</li>
-<li>
-<code>restart</code> now daemonize process by default</li>
-</ul><h3>Version 0.7</h3>
-
-<ul>
-<li>Inclusion of Http supervision</li>
-</ul><h2>Acknowledgements</h2>
+<h2>Acknowledgements</h2>
 
 <p>sponges would not have been the same without <a href="https://github.com/jstorimer">Jesse
 Storimer</a> and his awesome book about

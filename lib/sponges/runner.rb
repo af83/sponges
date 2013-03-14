@@ -32,12 +32,12 @@ module Sponges
 
     def trap_signals
       Sponges::SIGNALS.each do |signal|
-        trap(signal) {|signal| kill_supervisor(signal) }
+        trap(signal) {|signal| kill_supervisor }
       end
     end
 
-    def kill_supervisor(signal)
-      Process.kill signal, @supervisor
+    def kill_supervisor
+      Process.kill :QUIT, @supervisor
     end
 
     def default_options

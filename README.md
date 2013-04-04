@@ -142,11 +142,6 @@ Decrement worker's pool size :
 ruby example.rb decrement # will remove a worker to the pool.
 ```
 
-Show a list of workers and their children.
-``` bash
-ruby example.rb list
-```
-
 ## Http supervision
 
 sponges provides an http interface to supervise pool's activity, and to expose

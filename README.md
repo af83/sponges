@@ -5,20 +5,19 @@ Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/AF83
 [![Gem
 Version](https://fury-badge.herokuapp.com/rb/sponges.png)](http://badge.fury.io/rb/sponges)
 
-When I build workers, I want them to be like an army of spongebobs, always
-stressed and eager to work. `sponges` helps you build this army of sponges, to
-control them, and, well, to kill them gracefully. Making them stressed and eager
-to work is your job. :)
+When I build workers, I want them to be much like an army of spongebobs: always
+stressed and eager to work. `sponges` helps you with building this army of sponges,
+controling them, and, well, eventually killing them gracefully. Hum, naking them
+stressed and eager to work would still be your job :)
 
 Basically, sponges is a ruby supervisor that forks processes and controls their
-execution and termination. For example the following will start a supervision
-daemon and 8 processes of  "a_worker".
+execution and termination. For example, the following will start a supervision
+daemon and 8 processes of "a_worker":
 
 ```bash
 ruby a_worker.rb start -d -s 8
 ```
-If you kill the supervisor it will cleanly
-terminate the child processes.
+If you kill the supervisor, it will cleanly terminate its child processes.
 
 Internally, `sponges` strongly relies on Unix signals.
 
@@ -28,19 +27,22 @@ Internally, `sponges` strongly relies on Unix signals.
 
 ## Installation
 
-Ruby 1.9.2 (or superior).
+Requires Ruby 1.9.2 or newer.
 
 Install it with rubygems:
 
     gem install sponges
 
-With bundler, add it to your `Gemfile`:
+You may use bundler. In this case, add it to your `Gemfile`:
 
 ``` ruby
 gem "sponges"
 ```
 
+and run `bundle install`.
+
 ## Usage
+
 In a file called `example.rb`:
 
 ``` ruby
@@ -127,30 +129,31 @@ Stop workers with a `HUP` signal :
 ``` bash
 ruby example.rb stop -g -t 5
 ```
+
 In this case, you will have to trap the `HUP` signal, and handle a clean stop
 from each workers. The point is to wait for a task to be done before quitting. A
-timeout can be specify with the `-t` option. When this timeout is hited, the
+timeout can be specify with the `-t` option. When this timeout is hit, the
 process is killed.
 
 Increment worker's pool size :
 ``` bash
-ruby example.rb increment # will add a worker to the pool.
+ruby example.rb increment # will add a worker from the pool.
 ```
 
 Decrement worker's pool size :
 ``` bash
-ruby example.rb decrement # will remove a worker to the pool.
+ruby example.rb decrement # will remove a worker from the pool.
 ```
 
-## Http supervision
+## HTTP supervision
 
-sponges provides an http interface to supervise pool's activity, and to expose
-pids. Http supervision can be enable in configuration:
+sponges provides an HTTP interface to supervise the pool's activity, and to expose
+pids. HTTP supervision can be enable in the configuration:
 
 
 ``` ruby
 Sponges.configure do |config|
-  config.port            = 3333
+  config.port = 3333
 end
 ```
 

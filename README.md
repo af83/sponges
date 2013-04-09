@@ -148,7 +148,7 @@ ruby example.rb decrement # will remove a worker from the pool.
 ## HTTP supervision
 
 sponges provides an HTTP interface to supervise the pool's activity, and to expose
-pids. HTTP supervision can be enable in the configuration:
+pids. HTTP supervision can be enabled in the configuration:
 
 
 ``` ruby

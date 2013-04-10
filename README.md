@@ -7,7 +7,7 @@ Version](https://fury-badge.herokuapp.com/rb/sponges.png)](http://badge.fury.io/
 
 When I build workers, I want them to be much like an army of spongebobs: always
 stressed and eager to work. `sponges` helps you with building this army of sponges,
-controling them, and, well, eventually killing them gracefully. Hum, naking them
+controling them, and, well, eventually killing them gracefully. Hum, making them
 stressed and eager to work would still be your job :)
 
 Basically, sponges is a ruby supervisor that forks processes and controls their

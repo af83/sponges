@@ -36,36 +36,41 @@ Climate"></a>
 <a href="http://badge.fury.io/rb/sponges"><img src="https://fury-badge.herokuapp.com/rb/sponges.png" alt="Gem
 Version"></a></p>
 
-<p>When I build workers, I want them to be like an army of spongebobs, always
-stressed and eager to work. <code>sponges</code> helps you build this army of sponges, to
-control them, and, well, to kill them gracefully. Making them stressed and eager
-to work is your job. :)</p>
+<p>When I build workers, I want them to be much like an army of spongebobs: always
+stressed and eager to work. <code>sponges</code> helps you with building this army of sponges,
+controling them, and, well, eventually killing them gracefully. Hum, making them
+stressed and eager to work would still be your job :)</p>
 
 <p>Basically, sponges is a ruby supervisor that forks processes and controls their
-execution and termination. For example the following will start a supervision
-daemon and 8 processes of  "a_worker".</p>
+execution and termination. For example, the following will start a supervision
+daemon and 8 processes of "a_worker":</p>
 
 <div class="highlight"><pre>ruby a_worker.rb start -d -s 8
 </pre></div>
 
-<p>If you kill the supervisor it will cleanly
-terminate the child processes.</p>
+<p>If you kill the supervisor, it will cleanly terminate its child processes.</p>
 
 <p>Internally, <code>sponges</code> strongly relies on Unix signals.</p>
 
+<h2>Is it any good?</h2>
+
+<p><a href="http://news.ycombinator.com/item?id=3067434">Yes.</a></p>
+
 <h2>Installation</h2>
 
-<p>Ruby 1.9.2 (or superior).</p>
+<p>Requires Ruby 1.9.2 or newer.</p>
 
 <p>Install it with rubygems:</p>
 
 <pre><code>gem install sponges
 </code></pre>
 
-<p>With bundler, add it to your <code>Gemfile</code>:</p>
+<p>You may use bundler. In this case, add it to your <code>Gemfile</code>:</p>
 
 <div class="highlight"><pre><span class="n">gem</span> <span class="s2">"sponges"</span>
 </pre></div>
+
+<p>and run <code>bundle install</code>.</p>
 
 <h2>Usage</h2>
 
@@ -101,6 +106,9 @@ terminate the child processes.</p>
   <span class="n">config</span><span class="o">.</span><span class="n">size</span>              <span class="o">=</span> <span class="mi">3</span>                    <span class="c1"># optionnal, default to cpu's size</span>
   <span class="n">config</span><span class="o">.</span><span class="n">daemonize</span>         <span class="o">=</span> <span class="kp">true</span>                 <span class="c1"># optionnal, default to false</span>
   <span class="n">config</span><span class="o">.</span><span class="n">port</span>              <span class="o">=</span> <span class="mi">5032</span>                 <span class="c1"># optionnal, default to 5032</span>
+  <span class="c1"># polling on supervisor, this is use to shutdown children in case supervisor</span>
+  <span class="c1"># receive a `SIGKILL` signal.</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">polling</span>           <span class="o">=</span> <span class="mi">60</span>                   <span class="c1"># optionnal, default to 60</span>
   <span class="n">config</span><span class="o">.</span><span class="n">after_fork</span> <span class="k">do</span>
     <span class="nb">puts</span> <span class="s2">"Execute code when a child process is created"</span>
   <span class="k">end</span>
@@ -158,31 +166,26 @@ daemonize them:</p>
 
 <p>In this case, you will have to trap the <code>HUP</code> signal, and handle a clean stop
 from each workers. The point is to wait for a task to be done before quitting. A
-timeout can be specify with the <code>-t</code> option. When this timeout is hited, the
+timeout can be specify with the <code>-t</code> option. When this timeout is hit, the
 process is killed.</p>
 
 <p>Increment worker's pool size :</p>
 
-<div class="highlight"><pre>ruby example.rb increment <span class="c"># will add a worker to the pool.</span>
+<div class="highlight"><pre>ruby example.rb increment <span class="c"># will add a worker from the pool.</span>
 </pre></div>
 
 <p>Decrement worker's pool size :</p>
 
-<div class="highlight"><pre>ruby example.rb decrement <span class="c"># will remove a worker to the pool.</span>
+<div class="highlight"><pre>ruby example.rb decrement <span class="c"># will remove a worker from the pool.</span>
 </pre></div>
 
-<p>Show a list of workers and their children.</p>
+<h2>HTTP supervision</h2>
 
-<div class="highlight"><pre>ruby example.rb list
-</pre></div>
-
-<h2>Http supervision</h2>
-
-<p>sponges provides an http interface to supervise pool's activity, and to expose
-pids. Http supervision can be enable in configuration:</p>
+<p>sponges provides an HTTP interface to supervise the pool's activity, and to expose
+pids. HTTP supervision can be enabled in the configuration:</p>
 
 <div class="highlight"><pre><span class="no">Sponges</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">port</span>            <span class="o">=</span> <span class="mi">3333</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">3333</span>
 <span class="k">end</span>
 </pre></div>
 

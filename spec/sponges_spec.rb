@@ -103,4 +103,12 @@ describe Sponges do
       response["children"].first["pid"].should be_an Integer
     end
   end
+
+  context "sigkill on supervisor" do
+    it "should also shutdown children" do
+      press_sponges { Process.kill "KILL", find_supervisor.pid }
+      find_supervisor.should be_nil
+      find_childs.size.should be_zero
+    end
+  end
 end

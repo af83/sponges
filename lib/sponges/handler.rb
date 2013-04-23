@@ -120,12 +120,7 @@ module Sponges
 
     def fork_children
       name = children_name
-      pid = fork do
-        $PROGRAM_NAME = name
-        (Sponges::STOP_SIGNALS + [:HUP]).each{ |sig| trap(sig) { exit!(0) } }
-        Sponges::Hook.after_fork
-        supervisor.call
-      end
+      pid = Sponges::Worker.new(supervisor, name).call
       Sponges.logger.info "Supervisor create a child with #{pid} pid."
       store.add_children pid
     end

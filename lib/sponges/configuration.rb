@@ -5,7 +5,8 @@ module Sponges
   class Configuration
     class << self
       ACCESSOR = [:worker_name, :worker, :logger, :size, :daemonize,
-                  :after_fork, :timeout, :gracefully, :store, :port
+                  :after_fork, :timeout, :gracefully, :store, :port,
+                  :polling
       ]
       attr_accessor *ACCESSOR
 
@@ -29,6 +30,10 @@ module Sponges
 
       def port
         @port || 5032
+      end
+
+      def pooling
+        @pooling || 60
       end
 
     end

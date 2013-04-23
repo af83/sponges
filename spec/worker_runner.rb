@@ -12,6 +12,7 @@ end
 
 Sponges.configure do |config|
   config.logger           = Logger.new('spec.log')
+  config.polling          = 1
 end
 
 Sponges.start '_sponges_test' do

@@ -6,6 +6,7 @@ module Sponges
   # messages like 'stop' or 'restart'
   #
   class Commander
+    include Sponges::Alive
     attr_reader :store
 
     def initialize(name, options = {})
@@ -103,10 +104,6 @@ module Sponges
       rescue Errno::ESRCH => e
         # Don't panic
       end
-    end
-
-    def alive?(pid)
-      !Sys::ProcTable.ps.find {|f| f.pid == pid }.nil?
     end
 
     def gracefully?

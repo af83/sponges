@@ -76,6 +76,9 @@ Sponges.configure do |config|
   config.size              = 3                    # optionnal, default to cpu's size
   config.daemonize         = true                 # optionnal, default to false
   config.port              = 5032                 # optionnal, default to 5032
+  # polling on supervisor, this is use to shutdown children in case supervisor
+  # receive a `SIGKILL` signal.
+  config.polling           = 60                   # optionnal, default to 60
   config.after_fork do
     puts "Execute code when a child process is created"
   end

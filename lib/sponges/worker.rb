@@ -37,7 +37,6 @@ module Sponges
     def trap_supervisor_sigkill!
       Thread.new do
         while alive?(supervisor.pid) do
-          Sponges.logger.debug Configuration.polling
           sleep Configuration.polling
         end
         exit

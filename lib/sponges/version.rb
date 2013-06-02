@@ -1,4 +1,4 @@
 # encoding: utf-8
 module Sponges
-  VERSION = "1.1.0"
+  VERSION = "1.1.1"
 end

@@ -38,6 +38,8 @@ module Sponges
 
     def kill_supervisor
       Process.kill :QUIT, @supervisor
+    rescue Errno::ESRCH => e
+      # Don't panic
     end
 
     def default_options

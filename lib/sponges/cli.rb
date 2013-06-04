@@ -5,7 +5,7 @@ module Sponges
   class Cli < Boson::Runner
     option :daemonize,  type: :boolean
     option :size,       type: :numeric
-    desc "Start workers"
+    desc "Starts workers"
     def start(options = {})
       options = {
         size: Sponges::Configuration.size,
@@ -18,7 +18,7 @@ module Sponges
 
     option :gracefully, type: :boolean
     option :timeout,    type: :numeric
-    desc "Stop workers"
+    desc "Stops workers"
     def stop(options = {})
       options = {
         timeout:    Sponges::Configuration.timeout,
@@ -27,7 +27,7 @@ module Sponges
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).stop
     end
 
-    desc "Kill workers"
+    desc "Kills workers"
     def kill(options = {})
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).kill
     end
@@ -36,20 +36,20 @@ module Sponges
     option :size,       type: :numeric
     option :gracefully, type: :boolean
     option :timeout,    type: :numeric
-    desc "Restart workers"
+    desc "Restarts workers"
     def restart(options = {})
       stop(options)
       sleep 1
       start(options)
     end
 
-    desc "Increment workers pool size"
+    desc "Increments workers pool size"
     def increment(options = {})
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).
         increment
     end
 
-    desc "Decrement workers pool size"
+    desc "Decrements workers pool size"
     def decrement(options = {})
       Sponges::Commander.new(Sponges::Configuration.worker_name, options).
         decrement

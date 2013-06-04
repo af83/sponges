@@ -21,10 +21,6 @@ If you kill the supervisor, it will cleanly terminate its child processes.
 
 Internally, `sponges` strongly relies on Unix signals.
 
-## Is it any good?
-
-[Yes.](http://news.ycombinator.com/item?id=3067434)
-
 ## Installation
 
 Requires Ruby 1.9.2 or newer.

@@ -80,6 +80,7 @@ Sponges.configure do |config|
   end
   config.on_chld do
     puts "Execute code when a child process is killed"
+  end
 end
 
 # Register a pool named "worker_name".

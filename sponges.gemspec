@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description   = "When I build workers, I want them to be like an army of spongebobs, always stressed and eager to work. sponges helps you build this army of sponges, to control them, and, well, to kill them gracefully. Making them stressed and eager to work is your job. :)"
   s.files         = `git ls-files lib LICENSE README.md`.split("\n")
   s.platform      = Gem::Platform::RUBY
+  s.license       = 'MIT'
   s.require_paths = ['lib']
   s.add_dependency "boson"
   s.add_dependency "machine" , '~>0.1.0'

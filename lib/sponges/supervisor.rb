@@ -8,7 +8,7 @@ module Sponges
 
     def initialize(name, options, store, block)
       @name, @options, @store, @block = name, options, store, block
-      $PROGRAM_NAME = "#{@name}_supervisor"
+      $PROGRAM_NAME = [@name, Sponges.env, "supervisor"].compact.join("_")
       store.register Process.pid
       @children_seen = 0
       @handler = Handler.new self
@@ -38,7 +38,7 @@ module Sponges
     private
 
     def children_name
-      "#{name}_child_#{@children_seen +=1}"
+      [name, Sponges.env, "child_#{@children_seen +=1}"].compact.join("_")
     end
 
     def trap_signals

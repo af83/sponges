@@ -12,11 +12,11 @@ RSpec.configure do |config|
   end
 
   def supervisor_name
-    "#{worker_name}_supervisor"
+    "#{worker_name}_test_supervisor"
   end
 
   def childs_name
-    "#{worker_name}_child"
+    "#{worker_name}_test_child"
   end
 
   def find_supervisor

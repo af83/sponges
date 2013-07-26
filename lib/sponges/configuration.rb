@@ -6,7 +6,7 @@ module Sponges
     class << self
       ACCESSOR = [:worker_name, :worker, :logger, :size, :daemonize,
                   :after_fork, :timeout, :gracefully, :store, :port,
-                  :polling
+                  :polling, :env
       ]
       attr_accessor *ACCESSOR
 

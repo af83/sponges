@@ -38,11 +38,11 @@ module Sponges
     private
 
     def supervisor_name
-      "#{name}_supervisor"
+      [name, Sponges.env, "supervisor"].compact.join("_")
     end
 
     def childs_name
-      "#{name}_child"
+      [name, Sponges.env, "child"].compact.join("_")
     end
 
     def find_supervisor

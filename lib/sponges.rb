@@ -40,4 +40,9 @@ module Sponges
     @logger = Sponges::Configuration.logger || Logger.new(STDOUT)
   end
   module_function :logger
+
+  def env
+    Sponges::Configuration.env
+  end
+  module_function :env
 end

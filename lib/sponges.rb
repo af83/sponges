@@ -1,23 +1,11 @@
 # encoding: utf-8
-require 'boson/runner'
-require 'socket'
-require 'logger'
-require 'machine'
-require 'forwardable'
-require 'socket'
-require 'json'
-require_relative 'sponges/version'
-require_relative 'sponges/alive'
-require_relative 'sponges/configuration'
-require_relative 'sponges/worker'
-require_relative 'sponges/handler'
-require_relative 'sponges/response'
-require_relative 'sponges/listener'
-require_relative 'sponges/supervisor'
-require_relative 'sponges/runner'
-require_relative 'sponges/commander'
-require_relative 'sponges/cli'
-require_relative 'sponges/store'
+%w[boson/runner socket logger machine forwardable json].each do |lib|
+  require lib
+end
+%w[version alive configuration worker handler response listener supervisor
+   runner commander cli store].each do |lib|
+    require_relative "sponges/#{lib}"
+   end
 
 module Sponges
   STOP_SIGNALS = [:INT, :QUIT, :TERM]

@@ -4,6 +4,8 @@
 Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/AF83/sponges)
 [![Gem
 Version](https://fury-badge.herokuapp.com/rb/sponges.png)](http://badge.fury.io/rb/sponges)
+[![Build
+Status](https://travis-ci.org/AF83/sponges.png?branch=master)](https://travis-ci.org/AF83/sponges)
 
 When I build workers, I want them to be much like an army of spongebobs: always
 stressed and eager to work. `sponges` helps you with building this army of sponges,

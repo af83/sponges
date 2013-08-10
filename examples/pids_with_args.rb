@@ -2,18 +2,21 @@
 require_relative '../lib/sponges'
 
 class Worker
-  def run(user)
+  def initialize
     trap(:HUP) {
       Sponges.logger.info "HUP signal trapped, clean stop."
       @hup = true
     }
-    Sponges.logger.info user
-    if @hup
-      Sponges.logger.info "HUP signal trapped, shutdown..."
-      exit 0
-    else
+  end
+
+  def run(user)
+    loop do
+      Sponges.logger.info user
+      if @hup
+        Sponges.logger.info "HUP signal trapped, shutdown..."
+        exit 0
+      end
       sleep rand(20)
-      run(user)
     end
   end
 end

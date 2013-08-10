@@ -11,13 +11,13 @@ class Worker
   end
 
   def run
-    Sponges.logger.info Process.pid
-    if @hup
-      Sponges.logger.info "HUP signal trapped, shutdown..."
-      exit 0
-    else
+    loop do
+      Sponges.logger.info Process.pid
+      if @hup
+        Sponges.logger.info "HUP signal trapped, shutdown..."
+        exit 0
+      end
       sleep rand(20)
-      run
     end
   end
 end

@@ -22,7 +22,8 @@ module Sponges
       response = Response.new(supervisor).to_json
       connection.write headers(response)
       connection.write response
-      connection.close
+      connection.close_write
+      connection.close_read
     rescue Errno::EPIPE
       # Resist to ping
     end

@@ -24,7 +24,7 @@ module Sponges
       connection.write response
       connection.close_write
       connection.close_read
-    rescue Errno.constants.map {|c| Errno.const_get(c) }.uniq
+    rescue Errno::EPIPE
       # Resist to ping
     end
 

@@ -24,8 +24,9 @@ module Sponges
       connection.write response
       connection.close_write
       connection.close_read
-    rescue Errno::EPIPE
-      # Resist to ping
+    rescue SystemCallError
+      # Resist to system errors when closing or writing to a socket that is not
+      # opened.
     end
 
     def headers(response)

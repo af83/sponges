@@ -7,12 +7,12 @@ Version](https://fury-badge.herokuapp.com/rb/sponges.png)](http://badge.fury.io/
 [![Build
 Status](https://travis-ci.org/AF83/sponges.png?branch=master)](https://travis-ci.org/AF83/sponges)
 
-When I build workers, I want them to be much like an army of spongebobs: always
-stressed and eager to work. `sponges` helps you with building this army of sponges,
-controling them, and, well, eventually killing them gracefully. Hum, making them
-stressed and eager to work would still be your job :)
+When I build workers, I want them to be much like an army of Sponge Bobs: always
+stressed, and eager to work. `sponges` helps you with building this army of sponges,
+controlling them, and well, eventually killing them gracefully. Hum, making them
+stressed and eager to work would still be your job. :)
 
-Basically, sponges is a ruby supervisor that forks processes and controls their
+Basically, Sponges is a ruby supervisor that forks processes and controls their
 execution and termination. For example, the following will start a supervision
 daemon and 8 processes of "a_worker":
 
@@ -37,7 +37,7 @@ You may use bundler. In this case, add it to your `Gemfile`:
 gem "sponges"
 ```
 
-and run `bundle install`.
+Then, run `bundle install`.
 
 ## Usage
 
@@ -112,7 +112,7 @@ Start 8 instances of the worker and daemonize them:
 ruby example.rb start -d -s 8 # By default, size equals cpu core's size.
 ```
 
-Retart gracefully 4 instances of the worker, with a timeout of 3 seconds and
+Restart gracefully 4 instances of the worker, with a timeout of 3 seconds, and
 daemonize them:
 ``` bash
 ruby example.rb restart -g -s 4 -t 3
@@ -135,7 +135,7 @@ ruby example.rb stop -g -t 5
 
 In this case, you will have to trap the `HUP` signal, and handle a clean stop
 from each workers. The point is to wait for a task to be done before quitting. A
-timeout can be specify with the `-t` option. When this timeout is hit, the
+timeout can be specified with the `-t` option. When this timeout is hit, the
 process is killed.
 
 Increment worker's pool size :
@@ -150,7 +150,7 @@ ruby example.rb decrement # will remove a worker from the pool.
 
 ## HTTP supervision
 
-sponges provides an HTTP interface to supervise the pool's activity, and to expose
+Sponges provides an HTTP interface to supervise the pool's activity, and expose
 pids. HTTP supervision can be enabled in the configuration:
 
 
@@ -160,8 +160,8 @@ Sponges.configure do |config|
 end
 ```
 
-By default, sponges listens on port 5032, and responds in json. Here is an
-example of response:
+By default, Sponges listens on port 5032, and responds with JSON. Here is a
+sample:
 
 ``` javascript
 {
@@ -204,7 +204,7 @@ example of response:
 
 ## Acknowledgements
 
-sponges would not have been the same without [Jesse
+Sponges would not have been the same without [Jesse
 Storimer](https://github.com/jstorimer) and his awesome book about
 [Unix](http://workingwithunixprocesses.com/).
 

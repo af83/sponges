@@ -9,6 +9,8 @@ module Sponges
     #
     def alive?(pid)
       !Sys::ProcTable.ps.find {|f| f.pid == pid }.nil?
+    rescue SystemCallError
+      false
     end
     private :alive?
   end

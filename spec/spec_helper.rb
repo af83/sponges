@@ -4,7 +4,7 @@ require 'sys/proctable'
 
 RSpec.configure do |config|
   def sleep_value
-    @sleep_value ||= ENV.fetch('SLEEP_VALUE', 2)
+    @sleep_value ||= ENV.fetch('SLEEP_VALUE', 2).to_i
   end
 
   def worker_name
@@ -29,7 +29,7 @@ RSpec.configure do |config|
 
   def kill_supervisor
     s = find_supervisor
-    Process.kill('HUP', s.pid) if s && s.pid
+    Process.kill('QUIT', s.pid) if s && s.pid
   end
 
   def press_sponges
@@ -37,12 +37,13 @@ RSpec.configure do |config|
     sleep sleep_value
   end
 
-  config.before(:all) do
+  config.before do
     system('spec/worker_runner.rb start -d')
-    sleep 1
+    sleep sleep_value
   end
 
-  config.after(:all) do
+  config.after do
     kill_supervisor
+    sleep sleep_value
   end
 end

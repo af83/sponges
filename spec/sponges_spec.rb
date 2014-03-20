@@ -59,7 +59,7 @@ describe Sponges do
     end
 
     it "can be stopped, no matter the number of childs" do
-      find_childs.size.should eq Machine::Info::Cpu.cores_size + 7
+      find_childs.size.should eq Machine::Info::Cpu.cores_size + 1
       system('spec/worker_runner.rb stop')
       find_supervisor.should be_nil
     end

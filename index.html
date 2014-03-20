@@ -34,18 +34,20 @@
           <p><a href="https://codeclimate.com/github/AF83/sponges"><img src="https://codeclimate.com/badge.png" alt="Code
 Climate"></a>
 <a href="http://badge.fury.io/rb/sponges"><img src="https://fury-badge.herokuapp.com/rb/sponges.png" alt="Gem
-Version"></a></p>
+Version"></a>
+<a href="https://travis-ci.org/AF83/sponges"><img src="https://travis-ci.org/AF83/sponges.png?branch=master" alt="Build
+Status"></a></p>
 
-<p>When I build workers, I want them to be much like an army of spongebobs: always
-stressed and eager to work. <code>sponges</code> helps you with building this army of sponges,
-controling them, and, well, eventually killing them gracefully. Hum, making them
-stressed and eager to work would still be your job :)</p>
+<p>When I build workers, I want them to be much like an army of Sponge Bobs: always
+stressed, and eager to work. <code>sponges</code> helps you with building this army of sponges,
+controlling them, and well, eventually killing them gracefully. Hum, making them
+stressed and eager to work would still be your job. :)</p>
 
-<p>Basically, sponges is a ruby supervisor that forks processes and controls their
+<p>Basically, Sponges is a ruby supervisor that forks processes and controls their
 execution and termination. For example, the following will start a supervision
 daemon and 8 processes of "a_worker":</p>
 
-<div class="highlight"><pre>ruby a_worker.rb start -d -s 8
+<div class="highlight highlight-bash"><pre>ruby a_worker.rb start -d -s 8
 </pre></div>
 
 <p>If you kill the supervisor, it will cleanly terminate its child processes.</p>
@@ -64,17 +66,17 @@ daemon and 8 processes of "a_worker":</p>
 
 <p>You may use bundler. In this case, add it to your <code>Gemfile</code>:</p>
 
-<div class="highlight"><pre><span class="n">gem</span> <span class="s2">"sponges"</span>
+<div class="highlight highlight-ruby"><pre><span class="n">gem</span> <span class="s2">"sponges"</span>
 </pre></div>
 
-<p>and run <code>bundle install</code>.</p>
+<p>Then, run <code>bundle install</code>.</p>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>In a file called <code>example.rb</code>:</p>
 
-<div class="highlight"><pre><span class="c1"># The worker class is the one you want to daemonize.</span>
+<div class="highlight highlight-ruby"><pre><span class="c1"># The worker class is the one you want to daemonize.</span>
 <span class="c1">#</span>
 <span class="nb">require</span> <span class="s1">'sponges'</span>
 
@@ -104,6 +106,7 @@ daemon and 8 processes of "a_worker":</p>
   <span class="n">config</span><span class="o">.</span><span class="n">size</span>              <span class="o">=</span> <span class="mi">3</span>                    <span class="c1"># optionnal, default to cpu's size</span>
   <span class="n">config</span><span class="o">.</span><span class="n">daemonize</span>         <span class="o">=</span> <span class="kp">true</span>                 <span class="c1"># optionnal, default to false</span>
   <span class="n">config</span><span class="o">.</span><span class="n">port</span>              <span class="o">=</span> <span class="mi">5032</span>                 <span class="c1"># optionnal, default to 5032</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">env</span>               <span class="o">=</span> <span class="ss">:production</span>          <span class="c1"># optionnal, default to nil</span>
   <span class="c1"># polling on supervisor, this is use to shutdown children in case supervisor</span>
   <span class="c1"># receive a `SIGKILL` signal.</span>
   <span class="n">config</span><span class="o">.</span><span class="n">polling</span>           <span class="o">=</span> <span class="mi">60</span>                   <span class="c1"># optionnal, default to 60</span>
@@ -124,75 +127,75 @@ daemon and 8 processes of "a_worker":</p>
 
 <p>See the help message :</p>
 
-<div class="highlight"><pre>ruby example.rb
+<div class="highlight highlight-bash"><pre>ruby example.rb
 </pre></div>
 
 <p>Start workers :</p>
 
-<div class="highlight"><pre>ruby example.rb start
+<div class="highlight highlight-bash"><pre>ruby example.rb start
 </pre></div>
 
 <p>Start workers and daemonize them:</p>
 
-<div class="highlight"><pre>ruby example.rb start -d
+<div class="highlight highlight-bash"><pre>ruby example.rb start -d
 </pre></div>
 
 <p>Start 8 instances of the worker and daemonize them:</p>
 
-<div class="highlight"><pre>ruby example.rb start -d -s 8 <span class="c"># By default, size equals cpu core's size.</span>
+<div class="highlight highlight-bash"><pre>ruby example.rb start -d -s 8 <span class="c"># By default, size equals cpu core's size.</span>
 </pre></div>
 
-<p>Retart gracefully 4 instances of the worker, with a timeout of 3 seconds and
+<p>Restart gracefully 4 instances of the worker, with a timeout of 3 seconds, and
 daemonize them:</p>
 
-<div class="highlight"><pre>ruby example.rb restart -g -s 4 -t 3
+<div class="highlight highlight-bash"><pre>ruby example.rb restart -g -s 4 -t 3
 </pre></div>
 
 <p>Stop workers with a <code>QUIT</code> signal :</p>
 
-<div class="highlight"><pre>ruby example.rb stop
+<div class="highlight highlight-bash"><pre>ruby example.rb stop
 </pre></div>
 
 <p>Stop workers with a <code>KILL</code> signal :</p>
 
-<div class="highlight"><pre>ruby example.rb <span class="nb">kill</span>
+<div class="highlight highlight-bash"><pre>ruby example.rb <span class="nb">kill</span>
 </pre></div>
 
 <p>Stop workers with a <code>HUP</code> signal :</p>
 
-<div class="highlight"><pre>ruby example.rb stop -g -t 5
+<div class="highlight highlight-bash"><pre>ruby example.rb stop -g -t 5
 </pre></div>
 
 <p>In this case, you will have to trap the <code>HUP</code> signal, and handle a clean stop
 from each workers. The point is to wait for a task to be done before quitting. A
-timeout can be specify with the <code>-t</code> option. When this timeout is hit, the
+timeout can be specified with the <code>-t</code> option. When this timeout is hit, the
 process is killed.</p>
 
 <p>Increment worker's pool size :</p>
 
-<div class="highlight"><pre>ruby example.rb increment <span class="c"># will add a worker from the pool.</span>
+<div class="highlight highlight-bash"><pre>ruby example.rb increment <span class="c"># will add a worker from the pool.</span>
 </pre></div>
 
 <p>Decrement worker's pool size :</p>
 
-<div class="highlight"><pre>ruby example.rb decrement <span class="c"># will remove a worker from the pool.</span>
+<div class="highlight highlight-bash"><pre>ruby example.rb decrement <span class="c"># will remove a worker from the pool.</span>
 </pre></div>
 
 <h2>
 <a name="http-supervision" class="anchor" href="#http-supervision"><span class="octicon octicon-link"></span></a>HTTP supervision</h2>
 
-<p>sponges provides an HTTP interface to supervise the pool's activity, and to expose
+<p>Sponges provides an HTTP interface to supervise the pool's activity, and expose
 pids. HTTP supervision can be enabled in the configuration:</p>
 
-<div class="highlight"><pre><span class="no">Sponges</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+<div class="highlight highlight-ruby"><pre><span class="no">Sponges</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="mi">3333</span>
 <span class="k">end</span>
 </pre></div>
 
-<p>By default, sponges listens on port 5032, and responds in json. Here is an
-example of response:</p>
+<p>By default, Sponges listens on port 5032, and responds with JSON. Here is a
+sample:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-javascript"><pre><span class="p">{</span>
   <span class="s2">"supervisor"</span><span class="o">:</span><span class="p">{</span>
     <span class="s2">"pid"</span><span class="o">:</span><span class="mi">11537</span><span class="p">,</span>
     <span class="s2">"pctcpu"</span><span class="o">:</span><span class="mf">0.0</span><span class="p">,</span>
@@ -235,7 +238,7 @@ example of response:</p>
 <h2>
 <a name="acknowledgements" class="anchor" href="#acknowledgements"><span class="octicon octicon-link"></span></a>Acknowledgements</h2>
 
-<p>sponges would not have been the same without <a href="https://github.com/jstorimer">Jesse
+<p>Sponges would not have been the same without <a href="https://github.com/jstorimer">Jesse
 Storimer</a> and his awesome book about
 <a href="http://workingwithunixprocesses.com/">Unix</a>.</p>
 
@@ -247,7 +250,7 @@ Storimer</a> and his awesome book about
 
         <footer>
           Sponges is maintained by <a href="https://github.com/AF83">AF83</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
         

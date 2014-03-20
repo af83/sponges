@@ -8,7 +8,7 @@ RSpec.configure do |config|
   end
 
   def worker_name
-    '_sponges_test'
+    "_sponges_test_#{RUBY_VERSION}"
   end
 
   def supervisor_name

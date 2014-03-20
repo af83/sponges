@@ -16,6 +16,6 @@ Sponges.configure do |config|
   config.env              = :test
 end
 
-Sponges.start '_sponges_test' do
+Sponges.start "_sponges_test_#{RUBY_VERSION}" do
   Worker.new.run
 end
